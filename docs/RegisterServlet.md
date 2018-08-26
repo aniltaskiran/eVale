@@ -4,8 +4,7 @@ Register Customer to database.
 `PUT /registration`
 
 ### Headers
-- **AuthSessionId** - Identifier for current session
-- **AuthSessionSecret** - Secret for current session
+- **accessToken** - Identifier for current session
 
 ### Parameters
 - **phone** 		 - Phone Number for current Customer
