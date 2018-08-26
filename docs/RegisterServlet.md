@@ -12,7 +12,7 @@ Register Customer to database.
 - **carModel**   - Car Model for current Customer
 - **carModelID** - Car Model ID for current Customer
 
-[IDList])(idlist.com)
+[IDList](idlist.com)
 
 ### Response
 - **result** - True or False
