@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import manager.DBConnection;
 import model.Customer;
 import model.JsonResponse;
+import model.Valet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,32 +14,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "CheckCustomerExistServlet", urlPatterns = {"/checkCustomerExist"})
-public class CheckCustomerExistServlet extends HttpServlet {
+@WebServlet(name = "CheckValetExistServlet", urlPatterns = {"/CheckValetExist"})
+public class CheckValetExistServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        Customer customer = gson.fromJson(req.getReader(), Customer.class);
-        String ip = req.getRemoteAddr();
+        Valet valet = gson.fromJson(req.getReader(), Valet.class);
 
-        sendCustomerInfo(resp, customer.getPhone());
-
-        System.out.print("sms gönderiliyor.");
-        // TODO: SMS GÖNDERİLECEK
+        sendValetInfo(resp, valet.getPhone());
     }
 
-    void sendCustomerInfo(HttpServletResponse resp, String phone){
+    void sendValetInfo(HttpServletResponse resp, String phone){
 
         DBConnection dao = new DBConnection();
+
         try {
             JsonResponse jsonResp = new JsonResponse(resp);
-            ArrayList<Customer> customerList = dao.getCustomerInfoFromPhone(phone);
-            if (customerList.size() > 0) {
-                jsonResp.sendResponse(customerList);
 
+            Valet valet =  dao.getValetInfoFromPhone(phone);
+
+            if (valet != null) {
+                jsonResp.sendValetObjectResponse(valet);
             } else {
-                jsonResp.sendResponse(false);
-
+                jsonResp.sendErrorResponse("404");
             }
 
         } catch (Exception e) {

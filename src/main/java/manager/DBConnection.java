@@ -1,32 +1,20 @@
 package manager;
 
-import Security.Hash;
-import Utils.CurrentTimestamp;
-import model.Customer;
+import model.Admin;
+import model.SqlStatement;
+import model.Valet;
+import model.Zone;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 public class DBConnection {
-    enum DB_TABLE_NAMES{
-        TB_CUSTOMERS, TB_STAND_BY_CUSTOMERS,BACKUP_TB_STAND_BY_CUSTOMERS;
-    }
-
-    enum TB_CUSTOMERS{
-        ID, PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID,DATE;
-    }
-    enum TB_STAND_BY_CUSTOMERS{
-        PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE, STATUS,TIMESTAMP;
-    }
-    enum BACKUP_TB_STAND_BY_CUSTOMERS {
-        PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE,DATE;
-    }
 
     private  String jdbcDriverStr = "com.mysql.jdbc.Driver";
+
+    private  String jdbcRemoteURL = "jdbc:mysql://mydbinstance.cci6nljv0je1.eu-central-1.rds.amazonaws.com/eVale?useUnicode=true&characterEncoding=UTF-8";
+    private  String remoteHostUser = "msdb";
+    private  String remoteHostPassword = "2018.09.01DB";
+
     private  String jdbcURL = "jdbc:mysql://localhost:3306/eVale?useUnicode=true&characterEncoding=UTF-8";
     private  String localHostUser = "root";
     private  String localHostPassword = "M1405.010041m";
@@ -38,7 +26,8 @@ public class DBConnection {
     private void startConnection(){
         try {
             Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL,localHostUser,localHostPassword);
+            connection = DriverManager.getConnection(jdbcRemoteURL,remoteHostUser,remoteHostPassword);
+            //connection = DriverManager.getConnection(jdbcURL,localHostUser,localHostPassword);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -46,56 +35,7 @@ public class DBConnection {
         }
     }
 
-     public Boolean registerCustomer(Customer customer){
-        try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "INSERT INTO " +
-                            DB_TABLE_NAMES.TB_CUSTOMERS.toString() +
-                            "(ID, PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, DATE, TIMESTAMP)" +
-                            " values (default, '%s','%s','%s','%s', NOW(),'%s');",
-                    customer.getPhone(),
-                    customer.getPhoneHash(),
-                    customer.getCarModel(),
-                    customer.getCarModelID(),
-                    CurrentTimestamp.getTimestamp());
-
-            statement = connection.createStatement();
-            statement.executeUpdate(sqlStatement);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-            return false;
-        } finally {
-            close();
-        }
-        return true;
-    }
-
-
-    public Boolean deleteCustomerFromStandBy(String phone){
-        try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "DELETE FROM " +
-                            DB_TABLE_NAMES.TB_STAND_BY_CUSTOMERS.toString() +
-                            "WHERE " +
-                            TB_STAND_BY_CUSTOMERS.PHONE.toString() +
-                            " =%s;", phone);
-
-            statement = connection.createStatement();
-            statement.executeUpdate(sqlStatement);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-            return false;
-        } finally {
-            close();
-        }
-        return true;
-    }
-
-
+/*
     public Boolean registerCustomerToStandBy(Customer customer){
         try {
             startConnection();
@@ -141,114 +81,99 @@ public class DBConnection {
         }
         return true;
     }
+    */
+    public Boolean giveAuthorizationToValet(Admin admin) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.giveAuthorizationToValet(admin));
+    }
 
-    public ArrayList<Customer> getStandByCustomerList(){
+    public Boolean setValetInfo(Valet valet) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.setValetInfo(valet));
+    }
+
+    public Zone getZoneList(String venueId){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.);
         try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "SELECT * from " +
-                            DB_TABLE_NAMES.TB_STAND_BY_CUSTOMERS.toString() + ";");
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlStatement);
-            return parseTBCustomerListStandByResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-            return null;
+            return parseTBZoneResultSet(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+            return null;
+        } finally {
             close();
         }
-        return null;
     }
 
-    public ArrayList<Customer> getCustomerInfoFromPhone(String phoneNumber){
+    public Valet getValetInfoFromPhone(String phoneNumber) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getValetInfoWithPhone(phoneNumber));
         try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "SELECT * from " +
-                            DB_TABLE_NAMES.TB_CUSTOMERS.toString() +
-                            " where phone = '%s';", phoneNumber);
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlStatement);
-            return parseTBCustomerResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-            return null;
+            return parseTBValetResultSet(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+            return null;
+        } finally {
             close();
         }
-        return null;
     }
 
-    public Customer getCustomerInfoFromPhoneHash(String phoneHash){
+    private Boolean executeUpdateWithStatement(String sqlStatement) {
         try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "SELECT * from " +
-                            DB_TABLE_NAMES.TB_STAND_BY_CUSTOMERS.toString() +
-                            " where " + TB_STAND_BY_CUSTOMERS.PHONE_HASH.toString() + " = '%s';", phoneHash);
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlStatement);
-            return parseTBStandByCustomerResultSet(resultSet);
+            statement.executeUpdate(sqlStatement);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.print(e.getMessage());
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
+            return false;
+        } finally {
             close();
         }
-        return null;
+        return true;
     }
 
-    public ArrayList<Customer> parseTBCustomerResultSet(ResultSet resultSet) throws Exception {
-        ArrayList customerList = new ArrayList<Customer>();
-
-        while(resultSet.next()){
-            String phone = resultSet.getString(TB_CUSTOMERS.PHONE.toString());
-            String carModel = resultSet.getString(TB_CUSTOMERS.CAR_MODEL.toString());
-            Integer carModelID = resultSet.getInt(TB_CUSTOMERS.CAR_MODEL_ID.toString());
-            customerList.add(new Customer(phone,carModel,carModelID));
+    private ResultSet executeQueryWithStatement(String sqlStatement) {
+        try {
+            statement = connection.createStatement();
+            return statement.executeQuery(sqlStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        return customerList;
     }
 
-    public ArrayList<Customer> parseTBCustomerListStandByResultSet(ResultSet resultSet) throws Exception {
-        ArrayList customerList = new ArrayList<Customer>();
-
+    public Valet parseTBValetResultSet(ResultSet resultSet) throws Exception {
+        Valet valet = null;
         while(resultSet.next()){
-            String phone = resultSet.getString(TB_STAND_BY_CUSTOMERS.PHONE.toString());
-            String zone = resultSet.getString(TB_STAND_BY_CUSTOMERS.ZONE.toString());
-            String carModel = resultSet.getString(TB_STAND_BY_CUSTOMERS.CAR_MODEL.toString());
-            Integer carModelID = resultSet.getInt(TB_STAND_BY_CUSTOMERS.CAR_MODEL_ID.toString());
-            Integer status = resultSet.getInt(TB_STAND_BY_CUSTOMERS.STATUS.toString());
-            String timestamp = resultSet.getString(TB_STAND_BY_CUSTOMERS.TIMESTAMP.toString());
-            customerList.add(new Customer(phone,zone,carModel,carModelID,status,timestamp));
+
+            valet = new Valet();
+
+           valet.setPhone(resultSet.getString(SqlStatement.TB_VALET.PHONE.toString()));
+           valet.setFirstName(resultSet.getString(SqlStatement.TB_VALET.FIRSTNAME.toString()));
+           valet.setSurname(resultSet.getString(SqlStatement.TB_VALET.SURNAME.toString()));
+           valet.setAdmin(resultSet.getBoolean(SqlStatement.TB_VALET.IS_ADMIN.toString()));
+           valet.setAuthorized(resultSet.getBoolean(SqlStatement.TB_VALET.IS_AUTHORIZED.toString()));
+           valet.setVenueId(resultSet.getString(SqlStatement.TB_VALET.VENUE_ID.toString()));
+
         }
-        return customerList;
+        return valet;
     }
 
-    public Customer parseTBStandByCustomerResultSet(ResultSet resultSet) throws Exception {
+    public Zone parseTBZoneResultSet(ResultSet resultSet) throws Exception {
+        Zone zone = null;
         while(resultSet.next()){
-            String phone = resultSet.getString(TB_STAND_BY_CUSTOMERS.PHONE.toString());
-            String zone = resultSet.getString(TB_STAND_BY_CUSTOMERS.ZONE.toString());
-            String carModel = resultSet.getString(TB_STAND_BY_CUSTOMERS.CAR_MODEL.toString());
-            Integer carModelID = resultSet.getInt(TB_STAND_BY_CUSTOMERS.CAR_MODEL_ID.toString());
-            Integer status = resultSet.getInt(TB_STAND_BY_CUSTOMERS.STATUS.toString());
-            String timestamp = resultSet.getString(TB_STAND_BY_CUSTOMERS.TIMESTAMP.toString());
 
-            return new Customer(phone,zone,carModel,carModelID,status,timestamp);
+            zone = new Zone();
+
+           zone.setOrderId(resultSet.getString());
         }
-        return null;
+        return valet;
     }
 
-    private void close(){
+    public void close(){
         try {
             if(resultSet!=null) resultSet.close();
             if(statement!=null) statement.close();

@@ -21,7 +21,7 @@ public class GetMyCarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String phoneHash = req.getParameter(Hash.md5("customer"));
+/*        String phoneHash = req.getParameter(Hash.md5("customer"));
         String ip = req.getRemoteAddr();
 
         DBConnection dao = new DBConnection();
@@ -42,6 +42,7 @@ public class GetMyCarServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
     }
 
 }

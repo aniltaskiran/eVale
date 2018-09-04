@@ -16,7 +16,7 @@ public class JsonResponse {
     public JsonResponse(HttpServletResponse resp){
         this.response = resp;
     }
-
+/*
     public void sendResponse(ArrayList<Customer> customerList) throws IOException {
         JsonObject complaint = new JsonObject();
 
@@ -34,8 +34,7 @@ public class JsonResponse {
                 newJsonObject.addProperty("carModelID", customerList.get(i).getCarModelID());
 
                 newJsonObject.addProperty("date", customerList.get(i).getDate());
-*/
-
+***
                 jsonArray.add(gson.toJsonTree(customerList.get(i)));
             }
 
@@ -46,24 +45,35 @@ public class JsonResponse {
         }
     }
 
-    public void sendResponse(Customer customer) throws IOException {
+    */
+
+    public void sendValetObjectResponse(Valet valet) throws IOException {
         JsonObject complaint = new JsonObject();
 
-        if (customer != null){
-            complaint.addProperty("result", "true");
-            complaint.addProperty("zone", customer.getZone());
-            complaint.addProperty("phone", customer.getPhone());
-            complaint.addProperty("carModel", customer.getCarModel());
-            complaint.addProperty("carModelID", customer.getCarModelID());
-            sendJson(complaint);
-            } else {
-            sendResponse(false);
-        }
+        complaint.addProperty("result", "true");
+        complaint.addProperty("phone", valet.getPhone());
+        complaint.addProperty("firstName", valet.getFirstName());
+        complaint.addProperty("surname", valet.getSurname());
+        complaint.addProperty("isAuthorized", valet.isAuthorized());
+        complaint.addProperty("isAdmin", valet.isAdmin());
+
+        sendJson(complaint);
+
     }
 
-    public void sendResponse(Boolean response) throws IOException {
+    public void sendErrorResponse(String errorCode) throws IOException {
+
         JsonObject complaint = new JsonObject();
-        complaint.addProperty("result", response);
+        complaint.addProperty("result", false);
+        complaint.addProperty("errorCode", errorCode);
+
+        sendJson(complaint);
+    }
+
+    public void sendTrueResponse() throws IOException {
+        JsonObject complaint = new JsonObject();
+        complaint.addProperty("result", true);
+
         sendJson(complaint);
     }
 

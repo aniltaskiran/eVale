@@ -3,22 +3,78 @@ package model;
 import Utils.CurrentTimestamp;
 import manager.DBConnection;
 
+import static model.SqlStatement.TB_VALET.PHONE;
+
 public class SqlStatement {
-    enum DB_TABLE_NAMES{
-        TB_CUSTOMERS, TB_STAND_BY_CUSTOMERS,BACKUP_TB_STAND_BY_CUSTOMERS;
+   public enum DB_TABLE_NAMES{
+        TB_CUSTOMERS, TB_VALET,BACKUP_TB_STAND_BY_CUSTOMERS;
     }
 
-    enum TB_CUSTOMERS{
-        ID, PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID,DATE;
+    public enum TB_VALET {
+        PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID;
     }
-    enum TB_STAND_BY_CUSTOMERS{
+
+    public enum SOURCE_TB_ZONE {
+       ORDER_ID, ZONE_NAME, VENUE_ID;
+    }
+    public  enum TB_STAND_BY_CUSTOMERS{
         PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE, STATUS,TIMESTAMP;
     }
     enum BACKUP_TB_STAND_BY_CUSTOMERS {
         PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE,DATE;
     }
 
-    public static String register(Customer customer){
+    public String getZoneList(Valet valet) {
+        String sqlStatement = String.format(
+                "REPLACE INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
+                        " (PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID) " +
+                        "VALUES ('%s','%s', '%s',true,false,'%s');",
+                valet.getPhone(),
+                valet.getFirstName(),
+                valet.getSurname(),
+                valet.getVenueId());
+
+        return  sqlStatement;
+    }
+
+    public String setValetInfo(Valet valet) {
+        String sqlStatement = String.format(
+                "REPLACE INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
+                        " (PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID) " +
+                        "VALUES ('%s','%s', '%s',true,false,'%s');",
+                valet.getPhone(),
+                valet.getFirstName(),
+                valet.getSurname(),
+                valet.getVenueId());
+
+        return  sqlStatement;
+    }
+
+    public String giveAuthorizationToValet(Admin admin) {
+        String sqlStatement = String.format(
+                "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
+                        "(PHONE, IS_AUTHORIZED, VENUE_ID)" +
+                        "VALUES ('%s',true, '%s')" +
+                        "ON DUPLICATE KEY UPDATE IS_AUTHORIZED = true, VENUE_ID = '%s';",
+                admin.getValetPhone(),
+                admin.getVenueId(),
+                admin.getVenueId());
+
+        return  sqlStatement;
+    }
+
+
+    public String getValetInfoWithPhone(String phone) {
+        String sqlStatement = String.format(
+                "SELECT * FROM " +
+                        DB_TABLE_NAMES.TB_VALET.toString() +
+                        " WHERE " +
+                        PHONE.toString() +
+                        " = '%s'", phone);
+        return  sqlStatement;
+    }
+
+    public String register(Customer customer){
         String sqlStatement = String.format(
                 "INSERT INTO " +
                         DB_TABLE_NAMES.TB_CUSTOMERS.toString() +
