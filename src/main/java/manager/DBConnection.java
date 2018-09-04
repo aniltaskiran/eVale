@@ -1,9 +1,6 @@
 package manager;
 
-import model.Admin;
-import model.SqlStatement;
-import model.Valet;
-import model.Zone;
+import model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -123,6 +120,20 @@ public class DBConnection {
         }
     }
 
+    public boolean checkKeyNumberIsAvailable(Car car){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkKeyNumberIsAvailable(car));
+        try {
+            return parseTBCurrentCarResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            close();
+        }
+    }
+
     private Boolean executeUpdateWithStatement(String sqlStatement) {
         try {
             statement = connection.createStatement();
@@ -177,6 +188,13 @@ public class DBConnection {
         }
 
         return zoneList;
+    }
+
+    public boolean parseTBCurrentCarResultSet(ResultSet resultSet) throws Exception{
+        while (resultSet.next()){
+            return false;
+        }
+        return true;
     }
 
     public void close(){

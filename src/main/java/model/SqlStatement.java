@@ -7,7 +7,7 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-        TB_CUSTOMERS, TB_VALET, SOURCE_TB_ZONE, BACKUP_TB_STAND_BY_CUSTOMERS;
+       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR;
     }
 
     public enum TB_VALET {
@@ -17,11 +17,9 @@ public class SqlStatement {
     public enum SOURCE_TB_ZONE {
        ORDER_ID, ZONE_NAME, VENUE_ID;
     }
-    public  enum TB_STAND_BY_CUSTOMERS{
-        PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE, STATUS,TIMESTAMP;
-    }
-    enum BACKUP_TB_STAND_BY_CUSTOMERS {
-        PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE,DATE;
+
+    public enum TB_CURRENT_CAR {
+       VENUE_ID, KEY_NUMBER, LISENCE_TAG
     }
 
     public String getZoneList(String venueId) {
@@ -75,17 +73,18 @@ public class SqlStatement {
         return  sqlStatement;
     }
 
-    public String register(Customer customer){
-        String sqlStatement = String.format(
-                "INSERT INTO " +
-                        DB_TABLE_NAMES.TB_CUSTOMERS.toString() +
-                        "(ID, PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, DATE, TIMESTAMP)" +
-                        " values (default, '%s','%s','%s','%s', NOW(),'%s');",
-                customer.getPhone(),
-                customer.getPhoneHash(),
-                customer.getCarModel(),
-                customer.getCarModelID(),
-                CurrentTimestamp.getTimestamp());
-        return sqlStatement;
+    public String checkKeyNumberIsAvailable(Car car){
+
+       String sqlStatement = String.format(
+               "SELECT * FROM " +
+                       DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                       " WHERE " +
+                       TB_CURRENT_CAR.KEY_NUMBER.toString() +
+                       " = '%s' AND " +
+                       TB_CURRENT_CAR.VENUE_ID.toString()   +
+                       " = '%s' ;", car.getKeyNumber(), car.getVenueId());
+       return sqlStatement;
     }
+
+
 }
