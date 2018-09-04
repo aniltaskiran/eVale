@@ -33,7 +33,7 @@ public class CarRegistrationServlet extends HttpServlet {
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-
+            //TODO:licence tag kontrol edilecek
 
             if (dao.checkKeyNumberIsAvailable(car)) {
                 jsonResp.sendTrueResponse();
