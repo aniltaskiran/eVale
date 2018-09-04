@@ -1,9 +1,11 @@
-## Databases
-All databases listed
+## Database Tables
+
+All tables listed
 
 - ### TB_CUSTOMERS
-<details> <summary> <code> Customer List Table </code> </summary>
-                   
+
+  <details> <summary> <code> Customer List Table </code> </summary>
+
 **ID**            - int
 
 **PHONE**         - varchar
@@ -18,13 +20,12 @@ All databases listed
 
 **TIMESTAMP**     - varchar
 
-
 </details>
 
 - ### TB_STAND_BY_CUSTOMERS
 
 <details> <summary> <code> Valeye Park edilmiş Customers </code> </summary>
-  
+
 **PHONE**         - varchar
 
 **PHONE_HASH**    - varchar
@@ -46,7 +47,7 @@ All databases listed
 - ### BACKUP_TB_STAND_BY_CUSTOMERS
 
 <details> <summary> <code> Realtime backup of TB_STAND_BY_CUSTOMERS </code> </summary>
-  
+
 **PHONE**         - varchar
 
 **PHONE_HASH**    - varchar

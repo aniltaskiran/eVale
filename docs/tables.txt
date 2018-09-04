@@ -1,0 +1,109 @@
+-- auto-generated definition
+create table INFO_TB_AUTHORIZED_STATUS
+(
+  STATUS_ID   int auto_increment
+    primary key,
+  STATUS_INFO varchar(255) not null
+);
+
+
+
+
+
+-- auto-generated definition
+create table INFO_TB_ADMIN_STATUS
+(
+  STATUS_ID   int auto_increment
+    primary key,
+  STATUS_INFO varchar(255) not null
+);
+
+
+
+
+-- auto-generated definition
+create table INFO_TB_CAR_STATUS
+(
+  STATUS_ID   int auto_increment
+    primary key,
+  STATUS_INFO varchar(255) not null
+);
+
+
+
+-- auto-generated definition
+create table TB_CAR_BRAND
+(
+  CAR_MODEL_ID int auto_increment
+    primary key,
+  CAR_MODEL    varchar(255) not null,
+  CAR_LOGO_URL varchar(255) not null
+);
+
+
+
+-- auto-generated definition
+create table TB_CUSTOMER
+(
+  PHONE            varchar(255) default '' null,
+  CAR_MODEL        varchar(255)            null,
+  CAR_MODEL_ID     int                     null,
+  DATE             datetime                null,
+  TIMESTAMP        varchar(255)            null,
+  LICENSE_TAG      varchar(255)            not null,
+  LICENSE_TAG_HASH varchar(255)            not null
+);
+
+
+
+-- auto-generated definition
+create table TB_STAND_BY_CUSTOMERS
+(
+  PHONE              varchar(255) default '' not null,
+  CAR_MODEL          varchar(255)            null,
+  CAR_MODEL_ID       int                     null,
+  ZONE               varchar(255) default '' null,
+  STATUS             int                     null,
+  REGISTER_DATE      datetime                null,
+  REGISTER_TIMESTAMP varchar(255)            null,
+  LICENSE_TAG        varchar(255)            not null
+    primary key,
+  LICENSE_TAG_HASH   varchar(255)            not null,
+  KEY_NUMBER         varchar(255)            not null,
+  REGISTER_VALET_ID  varchar(255)            not null,
+  DELIVER_VALET_ID   varchar(255)            not null,
+  DELIVER_TIMESTAMP  varchar(255)            null,
+  DELIVER_DATE       datetime                not null
+);
+
+
+
+-- auto-generated definition
+create table TB_VALET
+(
+  VALET_FIRST_NAME varchar(255)       not null,
+  IS_AUTHORIZED    int(1) default '0' not null,
+  VENUE_ID         int(4)             not null,
+  PHONE            varchar(255)       not null
+    primary key,
+  VALET_SURNAME    varchar(255)       null,
+  IS_ADMIN         int(1) default '0' not null,
+  constraint `TB_USER_ VALET_FIRSTL_NAME_uindex`
+  unique (VALET_FIRST_NAME),
+  constraint TB_USER_PHONE_uindex
+  unique (PHONE)
+);
+
+
+
+-- auto-generated definition
+create table TB_VALET_INCOME
+(
+  PHONE     varchar(255) not null
+    primary key,
+  DATE      datetime     not null,
+  TIMESTAMP varchar(255) not null,
+  INCOME    varchar(255) not null,
+  constraint TB_VALET_INCOME_PHONE_uindex
+  unique (PHONE)
+);
