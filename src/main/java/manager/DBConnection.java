@@ -6,6 +6,7 @@ import model.Valet;
 import model.Zone;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnection {
 
@@ -94,10 +95,10 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.setValetInfo(valet));
     }
 
-    public Zone getZoneList(String venueId){
+    public ArrayList<Zone> getZoneList(String venueId){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.);
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getZoneList(venueId));
         try {
             return parseTBZoneResultSet(resultSet);
         } catch (Exception e) {
@@ -162,15 +163,20 @@ public class DBConnection {
         return valet;
     }
 
-    public Zone parseTBZoneResultSet(ResultSet resultSet) throws Exception {
-        Zone zone = null;
+    public ArrayList<Zone> parseTBZoneResultSet(ResultSet resultSet) throws Exception {
+        ArrayList <Zone> zoneList = new ArrayList<Zone>();
         while(resultSet.next()){
 
-            zone = new Zone();
+            Zone zone = new Zone();
 
-           zone.setOrderId(resultSet.getString());
+           zone.setOrderId(resultSet.getInt(SqlStatement.SOURCE_TB_ZONE.ORDER_ID.toString()));
+           zone.setVenueId(resultSet.getString(SqlStatement.SOURCE_TB_ZONE.VENUE_ID.toString()));
+           zone.setZoneName(resultSet.getString(SqlStatement.SOURCE_TB_ZONE.ZONE_NAME.toString()));
+
+           zoneList.add(zone);
         }
-        return valet;
+
+        return zoneList;
     }
 
     public void close(){

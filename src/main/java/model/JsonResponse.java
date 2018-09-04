@@ -47,6 +47,15 @@ public class JsonResponse {
 
     */
 
+    public void sendZoneObjectResponse(ArrayList<Zone> zonelist) throws IOException {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(zonelist);
+
+        sendJson(json);
+
+    }
+
     public void sendValetObjectResponse(Valet valet) throws IOException {
         JsonObject complaint = new JsonObject();
 
@@ -78,6 +87,13 @@ public class JsonResponse {
     }
 
     private void sendJson(JsonObject json) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.println(json);
+        out.close();
+    }
+
+    private void sendJson(String json) throws IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         out.println(json);

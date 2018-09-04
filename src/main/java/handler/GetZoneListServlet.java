@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -33,12 +34,10 @@ public class GetZoneListServlet extends HttpServlet {
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-            JsonResponse jsonResp = new JsonResponse(resp);
+            ArrayList<Zone> zone =  dao.getZoneList(venueId);
 
-            Valet valet =  dao.getValetInfoFromPhone(phone);
-
-            if (valet != null) {
-                jsonResp.sendValetObjectResponse(valet);
+            if (zone != null) {
+                jsonResp.sendZoneObjectResponse(zone);
             } else {
                 jsonResp.sendErrorResponse("404");
             }

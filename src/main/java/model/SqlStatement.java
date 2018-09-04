@@ -7,7 +7,7 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-        TB_CUSTOMERS, TB_VALET,BACKUP_TB_STAND_BY_CUSTOMERS;
+        TB_CUSTOMERS, TB_VALET, SOURCE_TB_ZONE, BACKUP_TB_STAND_BY_CUSTOMERS;
     }
 
     public enum TB_VALET {
@@ -24,15 +24,16 @@ public class SqlStatement {
         PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID, ZONE,DATE;
     }
 
-    public String getZoneList(Valet valet) {
+    public String getZoneList(String venueId) {
+      //  SELECT * FROM SOURCE_TB_ZONE WHERE VENUE_ID = '345001';
+
         String sqlStatement = String.format(
-                "REPLACE INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
-                        " (PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID) " +
-                        "VALUES ('%s','%s', '%s',true,false,'%s');",
-                valet.getPhone(),
-                valet.getFirstName(),
-                valet.getSurname(),
-                valet.getVenueId());
+                "SELECT * FROM " +
+                        DB_TABLE_NAMES.SOURCE_TB_ZONE.toString() +
+                        " WHERE " +
+                        SOURCE_TB_ZONE.VENUE_ID.toString() +
+                        " = '%s';",
+                        venueId);
 
         return  sqlStatement;
     }
