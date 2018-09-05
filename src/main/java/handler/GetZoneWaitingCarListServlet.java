@@ -37,14 +37,14 @@ public class GetZoneWaitingCarListServlet extends HttpServlet {
         try {
             // TODO: get zone waiting list
 
-            ArrayList<Car> cars =  dao.getZoneList(venueId);
+         /*   ArrayList<Car> cars =  dao.getZoneList(venueId);
 
             if (cars != null) {
                 jsonResp.sendZoneObjectResponse(cars);
             } else {
                 jsonResp.sendErrorResponse("404");
             }
-
+*/
         } catch (Exception e) {
             e.printStackTrace();
 

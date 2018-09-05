@@ -48,7 +48,7 @@ public class JsonResponse {
     */
 
 
-    public void sendZoneObjectResponse(ArrayList<Class> zoneList) throws IOException {
+    public void sendZoneObjectResponse(ArrayList<Zone> zoneList) throws IOException {
 
         Gson gson = new Gson();
         String json = gson.toJson(zoneList);
