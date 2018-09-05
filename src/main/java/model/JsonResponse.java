@@ -57,6 +57,15 @@ public class JsonResponse {
 
     }
 
+    public void sendCarObjectResponse(ArrayList<Car> carList) throws IOException {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(carList);
+
+        sendJson(json);
+
+    }
+
     public void sendValetObjectResponse(Valet valet) throws IOException {
         JsonObject complaint = new JsonObject();
 

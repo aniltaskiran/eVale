@@ -40,7 +40,7 @@ public class GetZoneWaitingCarListServlet extends HttpServlet {
             ArrayList<Car> cars =  dao.getZoneWaitingList(valet);
 
             if (cars != null) {
-                jsonResp.sendZoneObjectResponse(cars);
+                jsonResp.sendCarObjectResponse(cars);
             } else {
                 jsonResp.sendErrorResponse("404");
             }
