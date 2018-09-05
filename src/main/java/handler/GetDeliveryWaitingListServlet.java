@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-@WebServlet(name = "GetWaitingDeliveryListServlet", urlPatterns = {"/GetWaitingDeliveryList"})
+@WebServlet(name = "GetDeliveryWaitingListServlet", urlPatterns = {"/GetDeliveryWaitingList"})
 
-public class GetWaitingDeliveryListServlet extends HttpServlet {
+public class GetDeliveryWaitingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Gson gson = new Gson();
@@ -30,7 +30,7 @@ public class GetWaitingDeliveryListServlet extends HttpServlet {
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
-        // TODO: getDeliveryWaitingList
+
         try {
             ArrayList<Car> cars =  dao.getDeliveryWaitingList(valet);
 

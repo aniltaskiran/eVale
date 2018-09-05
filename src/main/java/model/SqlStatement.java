@@ -145,6 +145,34 @@ public class SqlStatement {
         return sqlStatement;
     }
 
+    public String deliveryWaitingList(Valet valet) {
+        String sqlStatement = String.format(
+                " SELECT CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        ", CC." +
+                        TB_CURRENT_CAR.KEY_NUMBER.toString() +
+                        ", CC." +
+                        TB_CURRENT_CAR.ZONE.toString() +
+                        ", RGC." +
+                        TB_REGISTERED_CAR.BRAND_ID.toString() +
+                        " FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " AS CC " +
+                        "INNER JOIN " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " AS RGC ON CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = RGC." +
+                        TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                        " WHERE " +
+                        TB_CURRENT_CAR.ZONE.toString() +
+                        " IS NULL AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
+                        " = '%s' ;", valet.getVenueId());
+
+        return sqlStatement;
+    }
+
+
     public String setZoneToCar (Car car){
 
         String sqlStatement = String.format(
@@ -153,6 +181,18 @@ public class SqlStatement {
                         " SET ZONE = '%s' WHERE " +
                         TB_CURRENT_CAR.LICENSE_TAG.toString() +
                         " = '%s';", car.getZone(), car.getLicenseTag());
+        return sqlStatement;
+    }
+
+
+    public String setDeliveredCar (Car car){
+
+        String sqlStatement = String.format(
+                " UPDATE " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " SET STATUS = '%s' WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s';", car.getStatus(), car.getLicenseTag());
         return sqlStatement;
     }
 /*
