@@ -113,6 +113,20 @@ public class DBConnection {
         }
     }
 
+    public ArrayList<Car> getDeliveryWaitingList(Valet valet){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+       // ResultSet resultSet = executeQueryWithStatement(sqlStatement.deliveryWaitingList(valet.getVenueId()));
+        try {
+            return parseWaitingDeliveryCarResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
+
     public ArrayList<Car> getZoneWaitingList(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -226,6 +240,8 @@ public class DBConnection {
         return valet;
     }
 
+
+
     public ArrayList<Zone> parseTBZoneResultSet(ResultSet resultSet) throws Exception {
         ArrayList <Zone> zoneList = new ArrayList<Zone>();
         while(resultSet.next()){
@@ -250,6 +266,22 @@ public class DBConnection {
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
             car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            carList.add(car);
+        }
+
+        return carList;
+    }
+
+
+    public ArrayList<Car> parseWaitingDeliveryCarResultSet(ResultSet resultSet) throws Exception {
+        ArrayList <Car> carList = new ArrayList<Car>();
+        while(resultSet.next()){
+
+            Car car = new Car();
+            car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
+            car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
+            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             carList.add(car);
         }
 
