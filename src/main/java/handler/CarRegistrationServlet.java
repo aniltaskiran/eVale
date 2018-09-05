@@ -21,21 +21,30 @@ public class CarRegistrationServlet extends HttpServlet {
         Car car = gson.fromJson(req.getReader(), Car.class);
 
 
-        checkKeyNumberIsAvailable(resp, car);
+        checkRegistrationAvailability(resp, car);
     }
 
-    void checkKeyNumberIsAvailable(HttpServletResponse resp, Car car) {
+    void checkRegistrationAvailability(HttpServletResponse resp, Car car) {
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-            //TODO:licence tag kontrol edilecek
 
+            // Checks current car table for key number availability.
             if (dao.checkKeyNumberIsAvailable(car)) {
 
+                // Checks current car table for license tag availability.
                 if (dao.checkLicenseTagIsAvailable(car)){
-                    jsonResp.sendTrueResponse();
+
+                    if (dao.checkCarIsAvailable(car)){
+                        jsonResp.sendTrueResponse();
+                    }
+
+                    else {
+
+                    }
+
                 }
                 else {
                     jsonResp.sendErrorResponse("404");
