@@ -98,13 +98,18 @@ public class SqlStatement {
        return sqlStatement;
     }
 
+   /* select  CCC.LICENSE_TAG, CCC.KEY_NUMBER, RGC.BRAND_ID
+    FROM TB_CURRENT_CAR AS CCC
+    INNER JOIN TB_REGISTERED_CARS AS RGC ON CCC.LICENSE_TAG = RGC.LICENSE_TAG
+    WHERE ZONE IS NULL AND VENUE_ID = '35';
+    */
     public String getZoneWaitingList(Valet valet) {
         String sqlStatement = String.format(
-                " SELECT * CC." +
+                " SELECT CC." +
                         TB_CURRENT_CAR.LICENSE_TAG.toString() +
-                        " CC." +
+                        ", CC." +
                         TB_CURRENT_CAR.KEY_NUMBER.toString() +
-                        " RGC." +
+                        ", RGC." +
                         TB_REGISTERED_CAR.BRAND_ID.toString() +
                         " FROM " +
                         DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
@@ -113,7 +118,7 @@ public class SqlStatement {
                         DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
                         " AS RGC ON CC." +
                         TB_CURRENT_CAR.LICENSE_TAG.toString() +
-                        " = " +
+                        " = RGC." +
                         TB_REGISTERED_CAR.LICENSE_TAG.toString() +
                         " WHERE " +
                         TB_CURRENT_CAR.ZONE.toString() +
@@ -122,4 +127,12 @@ public class SqlStatement {
 
         return sqlStatement;
     }
+
+/*
+    select  CCC.LICENSE_TAG, CCC.KEY_NUMBER, RGC.BRAND_ID
+    FROM TB_CURRENT_CAR AS CCC
+    INNER JOIN TB_REGISTERED_CARS AS RGC ON CCC.LICENSE_TAG = RGC.LICENSE_TAG
+    WHERE ZONE IS NULL AND VENUE_ID = '35';
+
+    */
 }
