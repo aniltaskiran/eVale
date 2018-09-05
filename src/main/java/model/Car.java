@@ -5,6 +5,15 @@ public class Car {
     private String licenseTag;
     private String venueId;
     private int brandId;
+    private String zone;
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
 
     public int getBrandId() {
         return brandId;

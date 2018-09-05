@@ -134,4 +134,19 @@ public class SqlStatement {
         return sqlStatement;
     }
 
+    public String setZoneToCar (Car car){
+
+        String sqlStatement = String.format(
+                " UPDATE " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " SET ZONE = '%s' WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s';", car.getZone(), car.getLicenseTag());
+        return sqlStatement;
+    }
+/*
+    UPDATE TB_CURRENT_CAR
+    SET ZONE = NULL
+    WHERE LICENSE_TAG = '34ZL6515';
+*/
 }

@@ -16,36 +16,6 @@ public class JsonResponse {
     public JsonResponse(HttpServletResponse resp){
         this.response = resp;
     }
-/*
-    public void sendResponse(ArrayList<Customer> customerList) throws IOException {
-        JsonObject complaint = new JsonObject();
-
-        JsonArray jsonArray = new JsonArray();
-
-        if (customerList != null){
-            complaint.addProperty("result", "true");
-            for (int i = 0; i < customerList.size(); i++) {
-              //  JsonObject newJsonObject = new JsonObject();
-                Gson gson = new Gson();
-/*
-                newJsonObject.addProperty("zone", customerList.get(i).getZone());
-                newJsonObject.addProperty("phone", customerList.get(i).getPhone());
-                newJsonObject.addProperty("carModel", customerList.get(i).getCarModel());
-                newJsonObject.addProperty("carModelID", customerList.get(i).getCarModelID());
-
-                newJsonObject.addProperty("date", customerList.get(i).getDate());
-***
-                jsonArray.add(gson.toJsonTree(customerList.get(i)));
-            }
-
-            complaint.add("customer",jsonArray);
-            sendJson(complaint);
-        } else {
-            sendResponse(false);
-        }
-    }
-
-    */
 
 
     public void sendZoneObjectResponse(ArrayList<Zone> zoneList) throws IOException {
@@ -59,23 +29,24 @@ public class JsonResponse {
 
     public void sendCarObjectResponse(ArrayList<Car> carList) throws IOException {
 
+        JsonObject complaint = new JsonObject();
+        complaint.addProperty("result", true);
         Gson gson = new Gson();
         String json = gson.toJson(carList);
 
-        sendJson(json);
+        complaint.add("carList", gson.toJsonTree(carList));
+        complaint.addProperty("count", carList.size());
+
+        sendJson(complaint);
 
     }
 
     public void sendValetObjectResponse(Valet valet) throws IOException {
         JsonObject complaint = new JsonObject();
+        Gson gson = new Gson();
 
         complaint.addProperty("result", "true");
-        complaint.addProperty("phone", valet.getPhone());
-        complaint.addProperty("firstName", valet.getFirstName());
-        complaint.addProperty("surname", valet.getSurname());
-        complaint.addProperty("isAuthorized", valet.isAuthorized());
-        complaint.addProperty("isAdmin", valet.isAdmin());
-
+        complaint.add("valet", gson.toJsonTree(valet));
         sendJson(complaint);
 
     }

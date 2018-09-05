@@ -80,6 +80,13 @@ public class DBConnection {
         return true;
     }
     */
+
+    public Boolean setZoneToCar(Car car) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.setZoneToCar(car));
+    }
+
     public Boolean giveAuthorizationToValet(Admin admin) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -176,6 +183,8 @@ public class DBConnection {
             close();
         }
     }
+
+
 
     private Boolean executeUpdateWithStatement(String sqlStatement) {
         try {
