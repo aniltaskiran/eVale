@@ -8,7 +8,6 @@ public class Valet {
     private String surname;
     private String venueId;
 
-
     public String getFirstName() {
         return firstName;
     }

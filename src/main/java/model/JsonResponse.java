@@ -47,10 +47,11 @@ public class JsonResponse {
 
     */
 
-    public void sendZoneObjectResponse(ArrayList<Zone> zonelist) throws IOException {
+
+    public void sendZoneObjectResponse(ArrayList<Class> zoneList) throws IOException {
 
         Gson gson = new Gson();
-        String json = gson.toJson(zonelist);
+        String json = gson.toJson(zoneList);
 
         sendJson(json);
 
