@@ -108,6 +108,17 @@ public class SqlStatement {
         return sqlStatement;
     }
 
+//    public String getPhoneAndBrandId(Car car){
+//
+//    }
+
+//    public String insertACarToRegisteredCarList(Car car){
+//       String sqlStaement = String.format(
+//               " INSERT INTO " +
+//                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
+//       )
+//    }
+
 
     public String getZoneWaitingList(Valet valet) {
         String sqlStatement = String.format(

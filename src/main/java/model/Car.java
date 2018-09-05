@@ -6,6 +6,7 @@ public class Car {
     private String venueId;
     private int brandId;
     private String zone;
+    private String carOwnerPhone;
 
     public String getZone() {
         return zone;
