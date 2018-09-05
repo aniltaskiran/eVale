@@ -7,6 +7,15 @@ public class Car {
     private int brandId;
     private String zone;
     private String carOwnerPhone;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getZone() {
         return zone;
