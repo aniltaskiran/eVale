@@ -198,6 +198,15 @@ public class DBConnection {
         }
     }
 
+//    public String getPhoneAndBrandId (Car car){
+//        startConnection();
+//        SqlStatement sqlStatement = new SqlStatement();
+//        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
+//        try{
+//            return  car
+//        }
+//    }
+
 
 
     private Boolean executeUpdateWithStatement(String sqlStatement) {
@@ -294,6 +303,20 @@ public class DBConnection {
         }
         return true;
     }
+
+//    public Car parsegetPhoneAndBrandIdResultSet (ResultSet resultSet) throws Exception {
+//
+//        while(resultSet.next()){
+//
+//            Car car = new Car();
+//            car.setCarOwnerPhone(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR..toString()));
+//            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+//
+//            return car;
+//        }
+//
+//        return null;
+//    }
 
     public void close(){
         try {

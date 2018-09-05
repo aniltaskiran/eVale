@@ -47,4 +47,14 @@ public class Car {
     public void setVenueId(String venueId) {
         this.venueId = venueId;
     }
+
+    public String getCarOwnerPhone() {
+        return carOwnerPhone;
+    }
+
+    public void setCarOwnerPhone(String carOwnerPhone) {
+        this.carOwnerPhone = carOwnerPhone;
+    }
 }
+
+
