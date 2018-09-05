@@ -42,7 +42,7 @@ public class CarRegistrationServlet extends HttpServlet {
                     }
 
                     else {
-
+                        jsonResp.sendErrorResponse("404");
                     }
 
                 }
