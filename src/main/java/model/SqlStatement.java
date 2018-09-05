@@ -1,8 +1,5 @@
 package model;
 
-import Utils.CurrentTimestamp;
-import manager.DBConnection;
-
 import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
@@ -19,7 +16,7 @@ public class SqlStatement {
     }
 
     public enum TB_CURRENT_CAR {
-       VENUE_ID, KEY_NUMBER, LISENCE_TAG
+        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LISENCE_TAG_HASH
     }
 
     public String getZoneList(String venueId) {
@@ -81,8 +78,19 @@ public class SqlStatement {
                        " WHERE " +
                        TB_CURRENT_CAR.KEY_NUMBER.toString() +
                        " = '%s' AND " +
-                       TB_CURRENT_CAR.VENUE_ID.toString()   +
+                       TB_CURRENT_CAR.VENUE_ID.toString() +
                        " = '%s' ;", car.getKeyNumber(), car.getVenueId());
+       return sqlStatement;
+    }
+
+    public String checkLicenseTagIsAvailable(Car car){
+       String sqlStatement = String.format(
+               " SELECT * FROM " +
+                       DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                       " WHERE " +
+                       TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                       " = '%s' ;", car.getLicenseTag());
+
        return sqlStatement;
     }
 

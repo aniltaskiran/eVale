@@ -2,7 +2,7 @@ package model;
 
 public class Car {
     private String keyNumber;
-    private String lisenceTag;
+    private String licenseTag;
     private String venueId;
 
     public String getKeyNumber() {
@@ -13,12 +13,12 @@ public class Car {
         this.keyNumber = keyNumber;
     }
 
-    public String getLisenceTag() {
-        return lisenceTag;
+    public String getLicenseTag() {
+        return licenseTag;
     }
 
-    public void setLisenceTag(String lisenceTag) {
-        this.lisenceTag = lisenceTag;
+    public void setLicenseTag(String licenseTag) {
+        this.licenseTag = licenseTag;
     }
 
     public String getVenueId() {

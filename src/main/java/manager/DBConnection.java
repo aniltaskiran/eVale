@@ -134,6 +134,21 @@ public class DBConnection {
         }
     }
 
+    public boolean checkLicenseTagIsAvailable(Car car){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkLicenseTagIsAvailable(car));
+        try{
+            return parseTBCurrentCarResultSet(resultSet);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            close();
+        }
+
+    }
+
     private Boolean executeUpdateWithStatement(String sqlStatement) {
         try {
             statement = connection.createStatement();
