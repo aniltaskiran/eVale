@@ -26,10 +26,10 @@ public class GetZoneWaitingCarListServlet extends HttpServlet {
         Gson gson = new Gson();
         Valet valet = gson.fromJson(req.getReader(), Valet.class);
 
-        getZoneList(resp, valet.getVenueId());
+        getZoneList(resp, valet);
     }
 
-    void getZoneList(HttpServletResponse resp, String venueId) {
+    void getZoneList(HttpServletResponse resp, Valet valet) {
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
@@ -37,17 +37,16 @@ public class GetZoneWaitingCarListServlet extends HttpServlet {
         try {
             // TODO: get zone waiting list
 
-         /*   ArrayList<Car> cars =  dao.getZoneList(venueId);
+            ArrayList<Car> cars =  dao.getZoneWaitingList(valet);
 
             if (cars != null) {
                 jsonResp.sendZoneObjectResponse(cars);
             } else {
                 jsonResp.sendErrorResponse("404");
             }
-*/
+
         } catch (Exception e) {
             e.printStackTrace();
-
         }
 
     }

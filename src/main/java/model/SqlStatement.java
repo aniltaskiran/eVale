@@ -4,7 +4,7 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR;
+       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR;
     }
 
     public enum TB_VALET {
@@ -17,6 +17,10 @@ public class SqlStatement {
 
     public enum TB_CURRENT_CAR {
         LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LISENCE_TAG_HASH
+    }
+
+    public enum TB_REGISTERED_CAR {
+       LICENSE_TAG, BRAND_ID;
     }
 
     public String getZoneList(String venueId) {
@@ -94,5 +98,28 @@ public class SqlStatement {
        return sqlStatement;
     }
 
+    public String getZoneWaitingList(Valet valet) {
+        String sqlStatement = String.format(
+                " SELECT * CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " CC." +
+                        TB_CURRENT_CAR.KEY_NUMBER.toString() +
+                        " RGC." +
+                        TB_REGISTERED_CAR.BRAND_ID.toString() +
+                        " FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " AS CC " +
+                        "INNER JOIN " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " AS RGC ON CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = " +
+                        TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                        " WHERE " +
+                        TB_CURRENT_CAR.ZONE.toString() +
+                        " IS NULL AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
+                        " = '%s' ;", valet.getVenueId());
 
+        return sqlStatement;
+    }
 }

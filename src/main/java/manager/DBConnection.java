@@ -106,6 +106,20 @@ public class DBConnection {
         }
     }
 
+    public ArrayList<Car> getZoneWaitingList(Valet valet){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getZoneWaitingList(valet));
+        try {
+            return parseTBCurrentAndRegisteredCarResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
+
     public Valet getValetInfoFromPhone(String phoneNumber) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -203,6 +217,20 @@ public class DBConnection {
         }
 
         return zoneList;
+    }
+
+    public ArrayList<Car> parseTBCurrentAndRegisteredCarResultSet(ResultSet resultSet) throws Exception {
+        ArrayList <Car> carList = new ArrayList<Car>();
+        while(resultSet.next()){
+
+            Car car = new Car();
+            car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
+            car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
+            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            carList.add(car);
+        }
+
+        return carList;
     }
 
     public boolean parseTBCurrentCarResultSet(ResultSet resultSet) throws Exception{

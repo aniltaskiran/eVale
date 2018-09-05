@@ -4,6 +4,15 @@ public class Car {
     private String keyNumber;
     private String licenseTag;
     private String venueId;
+    private int brandId;
+
+    public int getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
+    }
 
     public String getKeyNumber() {
         return keyNumber;
