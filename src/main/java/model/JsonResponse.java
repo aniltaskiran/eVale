@@ -48,7 +48,7 @@ public class JsonResponse {
         Gson gson = new Gson();
         String json = gson.toJson(valetList);
 
-        complaint.add("carList", gson.toJsonTree(valetList));
+        complaint.add("valetList", gson.toJsonTree(valetList));
         complaint.addProperty("count", valetList.size());
 
         sendJson(complaint);
