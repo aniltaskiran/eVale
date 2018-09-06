@@ -359,7 +359,7 @@ public class DBConnection {
         while(resultSet.next()){
 
             Car car = new Car();
-            car.setCarOwnerPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));
+            car.setPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));
             car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
 
             return car;
