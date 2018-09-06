@@ -2,7 +2,6 @@ package handler;
 
 import com.google.gson.Gson;
 import manager.DBConnection;
-import model.Customer;
 import model.JsonResponse;
 import model.Valet;
 
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet(name = "CheckValetExistServlet", urlPatterns = {"/CheckValetExist"})
 public class CheckValetExistServlet extends HttpServlet {
@@ -31,7 +29,7 @@ public class CheckValetExistServlet extends HttpServlet {
         try {
             JsonResponse jsonResp = new JsonResponse(resp);
 
-            Valet valet =  dao.getValetInfoFromPhone(phone);
+            Valet valet =  dao.getValetInfo(phone);
 
             if (valet != null) {
                 jsonResp.sendValetObjectResponse(valet);

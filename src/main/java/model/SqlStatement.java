@@ -66,14 +66,16 @@ public class SqlStatement {
         return  sqlStatement;
     }
 
-    public String giveAuthorizationToValet(Admin admin) {
+    public String updateAuthorizationForValet(Admin admin) {
         String sqlStatement = String.format(
                 "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
                         "(PHONE, IS_AUTHORIZED, VENUE_ID)" +
-                        "VALUES ('%s',true, '%s')" +
-                        "ON DUPLICATE KEY UPDATE IS_AUTHORIZED = true, VENUE_ID = '%s';",
+                        "VALUES ('%s',%B, '%s')" +
+                        "ON DUPLICATE KEY UPDATE IS_AUTHORIZED = %B, VENUE_ID = '%s';",
                 admin.getValetPhone(),
+                admin.getAuthorizationStatus(),
                 admin.getVenueId(),
+                admin.getAuthorizationStatus(),
                 admin.getVenueId());
 
         return  sqlStatement;
@@ -288,9 +290,28 @@ public class SqlStatement {
                         " = '%s';", car.getStatus(), car.getLicenseTag());
         return sqlStatement;
     }
+
+    public String removeValetAuthorization (Valet valet){
+
+        String sqlStatement = String.format(
+                " UPDATE " +
+                        DB_TABLE_NAMES.TB_VALET.toString() +
+                        " SET " +
+                        TB_VALET.IS_AUTHORIZED.toString() +
+                        " = '%s', " +
+                        TB_VALET.VENUE_ID.toString() +
+                        " = '0' WHERE " +
+                        TB_VALET.PHONE.toString() +
+                        " = '%s';", valet.isAuthorized(), valet.getPhone());
+        return sqlStatement;
+    }
+
+
 /*
-    UPDATE TB_CURRENT_CAR
-    SET ZONE = NULL
-    WHERE LICENSE_TAG = '34ZL6515';
+   UPDATE TB_VALET
+set
+  IS_AUTHORIZED = false,
+  VENUE_ID = '0'
+WHERE PHONE = '2128834401';
 */
 }

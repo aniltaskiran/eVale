@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import manager.DBConnection;
 import model.Admin;
 import model.JsonResponse;
-import model.Valet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "GiveAuthorizationServlet", urlPatterns = {"/GiveAuthorization"})
+@WebServlet(name = "AuthorizationUpdateForValet", urlPatterns = {"/AuthorizationUpdateForValet"})
 
-public class GiveAuthorizationServlet extends HttpServlet {
+public class AuthorizationUpdateForValet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
@@ -32,7 +31,7 @@ public class GiveAuthorizationServlet extends HttpServlet {
 
         try {
 
-            if (dao.giveAuthorizationToValet(admin)) {
+            if (dao.updateAuthorizationForValet(admin)) {
                 jsonResp.sendTrueResponse();
             } else {
                 jsonResp.sendErrorResponse("404");

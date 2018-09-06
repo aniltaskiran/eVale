@@ -113,10 +113,16 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.registerCar(car));
     }
 
-    public Boolean giveAuthorizationToValet(Admin admin) {
+    public Boolean removeAuthorizationFromValet(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        return executeUpdateWithStatement(sqlStatement.giveAuthorizationToValet(admin));
+        return executeUpdateWithStatement(sqlStatement.removeValetAuthorization(valet));
+    }
+
+    public Boolean updateAuthorizationForValet(Admin admin) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.updateAuthorizationForValet(admin));
     }
 
     public Boolean setValetInfo(Valet valet) {
@@ -128,7 +134,7 @@ public class DBConnection {
     public ArrayList<Zone> getZoneList(String venueId){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getZoneList(venueId));
+        resultSet = executeQueryWithStatement(sqlStatement.getZoneList(venueId));
         try {
             return parseTBZoneResultSet(resultSet);
         } catch (Exception e) {
@@ -142,7 +148,7 @@ public class DBConnection {
     public ArrayList<Valet> getValetPerformance(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getValetPerformance(valet));
+        resultSet = executeQueryWithStatement(sqlStatement.getValetPerformance(valet));
         try {
             return parseTBValetResultSet(resultSet);
         } catch (Exception e) {
@@ -155,7 +161,7 @@ public class DBConnection {
     public ArrayList<Car> getDeliveryWaitingList(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.deliveryWaitingList(valet));
+        resultSet = executeQueryWithStatement(sqlStatement.deliveryWaitingList(valet));
         try {
             return parseWaitingDeliveryCarResultSet(resultSet);
         } catch (Exception e) {
@@ -170,7 +176,7 @@ public class DBConnection {
     public ArrayList<Car> getCurrentCarList(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getCurrentCarList(valet));
+        resultSet = executeQueryWithStatement(sqlStatement.getCurrentCarList(valet));
         try {
             return parseCurrentCarResultSet(resultSet);
         } catch (Exception e) {
@@ -184,7 +190,7 @@ public class DBConnection {
     public ArrayList<Car> getZoneWaitingList(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getZoneWaitingList(valet));
+        resultSet = executeQueryWithStatement(sqlStatement.getZoneWaitingList(valet));
         try {
             return parseTBCurrentAndRegisteredCarResultSet(resultSet);
         } catch (Exception e) {
@@ -195,10 +201,10 @@ public class DBConnection {
         }
     }
 
-    public Valet getValetInfoFromPhone(String phoneNumber) {
+    public Valet getValetInfo(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getValetInfoWithPhone(phoneNumber));
+        resultSet = executeQueryWithStatement(sqlStatement.getValetInfoWithPhone(valet));
         try {
             return parseTBValetObjectResultSet(resultSet);
         } catch (Exception e) {
@@ -212,7 +218,7 @@ public class DBConnection {
     public boolean checkKeyNumberIsAvailable(Car car){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkKeyNumberIsAvailable(car));
+        resultSet = executeQueryWithStatement(sqlStatement.checkKeyNumberIsAvailable(car));
         try {
             return parseGenericTypeIsAvailable(resultSet);
         } catch (Exception e) {
@@ -226,7 +232,7 @@ public class DBConnection {
     public boolean checkLicenseTagIsAvailable(Car car){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkLicenseTagIsAvailable(car));
+        resultSet = executeQueryWithStatement(sqlStatement.checkLicenseTagIsAvailable(car));
         try{
             return parseGenericTypeIsAvailable(resultSet);
         } catch (Exception e){
@@ -241,7 +247,7 @@ public class DBConnection {
     public boolean checkCarIsRegistered(Car car){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkCarIsAvailable(car));
+        resultSet = executeQueryWithStatement(sqlStatement.checkCarIsAvailable(car));
         try{
             return parseCarIsRegistered(resultSet);
         } catch (Exception e){
