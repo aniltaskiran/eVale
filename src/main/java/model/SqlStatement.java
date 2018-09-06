@@ -69,12 +69,13 @@ public class SqlStatement {
     public String saveTipForValet(Valet valet) {
         String sqlStatement = String.format(
                 "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
-                        "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID)" +
-                        "VALUES ('%s', NOW(), '%s', '%s', '%s');",
+                        "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID, LICENSE_TAG)" +
+                        "VALUES ('%s', NOW(), '%s', '%s', '%s', '%s');",
                 valet.getPhone(),
                 valet.getTimestamp(),
                 valet.getIncome(),
-                valet.getVenueId());
+                valet.getVenueId(),
+                valet.getIncomeLicenseTag());
 
         return  sqlStatement;
     }
@@ -252,6 +253,17 @@ public class SqlStatement {
 
 
     public String setDeliveredCar (Car car){
+
+        String sqlStatement = String.format(
+                " UPDATE " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " SET CAR_STATUS = '%s' WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s';", car.getStatus(), car.getLicenseTag());
+        return sqlStatement;
+    }
+
+    public String updateCurrentCar (Car car){
 
         String sqlStatement = String.format(
                 " UPDATE " +

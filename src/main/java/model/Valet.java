@@ -10,6 +10,15 @@ public class Valet {
     private String surname;
     private String venueId;
     private String income;
+    private String incomeLicenseTag;
+
+    public String getIncomeLicenseTag() {
+        return incomeLicenseTag;
+    }
+
+    public void setIncomeLicenseTag(String incomeLicenseTag) {
+        this.incomeLicenseTag = incomeLicenseTag;
+    }
 
     public String getIncome() {
         return income;

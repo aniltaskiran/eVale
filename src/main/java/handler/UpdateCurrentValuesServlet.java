@@ -2,7 +2,6 @@ package handler;
 
 import com.google.gson.Gson;
 import manager.DBConnection;
-import model.Admin;
 import model.Car;
 import model.JsonResponse;
 
@@ -13,26 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(name = "UpdateCurrentValuesServlet", urlPatterns = {"/UpdateCurrentValues"})
 
-@WebServlet(name = "SetZoneToCarServlet", urlPatterns = {"/SetZoneToCar"})
-
-public class SetZoneToCarServlet extends HttpServlet {
+public class UpdateCurrentValuesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         Car car = gson.fromJson(req.getReader(), Car.class);
 
-        setZoneToCar(resp, car);
+        updateCurrentCar(resp, car);
     }
 
-    void setZoneToCar(HttpServletResponse resp, Car car){
+    void updateCurrentCar(HttpServletResponse resp, Car car){
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
 
-
         try {
-            if (dao.setZoneToCar(car)) {
+            if (dao.updateCurrentCar(car)) {
                 jsonResp.sendTrueResponse();
             } else {
                 jsonResp.sendErrorResponse("303");

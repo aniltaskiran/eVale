@@ -93,6 +93,12 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.setZoneToCar(car));
     }
 
+    public Boolean updateCurrentCar(Car car) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.updateCurrentCar(car));
+    }
+
     public Boolean saveTipForValet(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
