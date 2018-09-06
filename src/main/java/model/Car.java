@@ -9,6 +9,15 @@ public class Car {
     private String phone;
     private String status;
     private String registrationTimestamp;
+    private String licenseTagHash;
+
+    public String getLicenseTagHash() {
+        return licenseTagHash;
+    }
+
+    public void setLicenseTagHash(String licenseTagHash) {
+        this.licenseTagHash = licenseTagHash;
+    }
 
     public String getRegistrationTimestamp() {
         return registrationTimestamp;

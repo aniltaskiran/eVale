@@ -125,8 +125,8 @@ public class SqlStatement {
     }
 
     public String getPhoneAndBrandId(Car car){
-        String sqlStaement = String.format(
-                " SELECT " +
+        String sqlStatement = String.format(
+                "SELECT " +
                         TB_REGISTERED_CAR.PHONE.toString() +
                         " , " +
                         TB_REGISTERED_CAR.BRAND_ID.toString() +
@@ -135,7 +135,19 @@ public class SqlStatement {
                         " WHERE " +
                         TB_REGISTERED_CAR.LICENSE_TAG.toString() +
                         " = '%s' ;", car.getLicenseTag());
-        return sqlStaement;
+        return sqlStatement;
+    }
+
+    public String registerCar (Car car){
+       String sqlStatement = String.format(
+               "INSERT INTO " +
+                       DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                       " (LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH) " +
+                       " VALUES " +
+                       " ( '%S', '%d', '%S', '%S' );"
+                       , car.getLicenseTag(), car.getBrandId(), car.getPhone(), car.getLicenseTagHash());
+       
+       return sqlStatement;
     }
 
 //    public String insertACarToRegisteredCarList(Car car){
