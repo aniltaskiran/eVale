@@ -27,7 +27,7 @@ public class JsonResponse {
 
     }
 
-    public void sendCarObjectResponse(ArrayList<Car> carList) throws IOException {
+    public void sendCarListObjectResponse(ArrayList<Car> carList) throws IOException {
 
         JsonObject complaint = new JsonObject();
         complaint.addProperty("result", true);
@@ -50,6 +50,16 @@ public class JsonResponse {
         sendJson(complaint);
 
     }
+
+    public void sendCarObject(Car car) throws IOException {
+        JsonObject complaint = new JsonObject();
+        Gson gson = new Gson();
+
+        complaint.addProperty("result", "true");
+        complaint.add("car", gson.toJsonTree(car));
+        sendJson(complaint);
+    }
+
 
     public void sendErrorResponse(String errorCode) throws IOException {
 

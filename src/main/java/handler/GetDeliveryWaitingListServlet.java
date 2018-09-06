@@ -35,7 +35,7 @@ public class GetDeliveryWaitingListServlet extends HttpServlet {
             ArrayList<Car> cars =  dao.getDeliveryWaitingList(valet);
 
             if (cars != null) {
-                jsonResp.sendCarObjectResponse(cars);
+                jsonResp.sendCarListObjectResponse(cars);
             } else {
                 jsonResp.sendErrorResponse("404");
             }

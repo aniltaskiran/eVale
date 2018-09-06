@@ -39,16 +39,13 @@ public class CarRegistrationServlet extends HttpServlet {
 
                     // Checks registered car table for license tag availability.
                     if (dao.checkCarIsAvailable(car)){
-                        jsonResp.sendTrueResponse();
 
+                    } else {
+                        Car respCar = dao.getPhoneAndBrandId(car);
+                        jsonResp.sendCarObject(respCar);
                     }
 
-                    else {
-                        jsonResp.sendErrorResponse("404");
-                    }
-
-                }
-                else {
+                } else {
                     jsonResp.sendErrorResponse("404");
                 }
             } else {
