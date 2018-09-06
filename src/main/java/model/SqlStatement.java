@@ -16,11 +16,11 @@ public class SqlStatement {
     }
 
     public enum TB_CURRENT_CAR {
-        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LISENCE_TAG_HASH
+        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LICENSE_TAG_HASH;
     }
 
     public enum TB_REGISTERED_CAR {
-       LICENSE_TAG, BRAND_ID;
+       LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH;;
     }
 
     public String getZoneList(String venueId) {
@@ -108,16 +108,16 @@ public class SqlStatement {
         return sqlStatement;
     }
 
-//    public String getPhoneAndBrandId(Car car){
-//
-//    }
+    public String getPhoneAndBrandId(Car car){
 
-//    public String insertACarToRegisteredCarList(Car car){
-//       String sqlStaement = String.format(
-//               " INSERT INTO " +
-//                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
-//       )
-//    }
+    }
+
+    public String insertACarToRegisteredCarList(Car car){
+       String sqlStaement = String.format(
+               " INSERT INTO " +
+                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
+       )
+    }
 
 
     public String getZoneWaitingList(Valet valet) {

@@ -198,14 +198,19 @@ public class DBConnection {
         }
     }
 
-//    public String getPhoneAndBrandId (Car car){
-//        startConnection();
-//        SqlStatement sqlStatement = new SqlStatement();
-//        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
-//        try{
-//            return  car
-//        }
-//    }
+    public Car getPhoneAndBrandId (Car car){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
+        try{
+            return  parsegetPhoneAndBrandIdResultSet(resultSet);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
 
 
 
@@ -304,19 +309,19 @@ public class DBConnection {
         return true;
     }
 
-//    public Car parsegetPhoneAndBrandIdResultSet (ResultSet resultSet) throws Exception {
-//
-//        while(resultSet.next()){
-//
-//            Car car = new Car();
-//            car.setCarOwnerPhone(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR..toString()));
-//            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
-//
-//            return car;
-//        }
-//
-//        return null;
-//    }
+    public Car parsegetPhoneAndBrandIdResultSet (ResultSet resultSet) throws Exception {
+
+        while(resultSet.next()){
+
+            Car car = new Car();
+            car.setCarOwnerPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));
+            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+
+            return car;
+        }
+
+        return null;
+    }
 
     public void close(){
         try {
