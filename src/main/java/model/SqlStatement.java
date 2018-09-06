@@ -109,15 +109,25 @@ public class SqlStatement {
     }
 
     public String getPhoneAndBrandId(Car car){
-
+        String sqlStaement = String.format(
+                " SELECT " +
+                        TB_REGISTERED_CAR.PHONE.toString() +
+                        " , " +
+                        TB_REGISTERED_CAR.BRAND_ID.toString() +
+                        " FROM " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " WHERE " +
+                        TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                        " = '%s' ;", car.getLicenseTag());
+        return sqlStaement;
     }
 
-    public String insertACarToRegisteredCarList(Car car){
-       String sqlStaement = String.format(
-               " INSERT INTO " +
-                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
-       )
-    }
+//    public String insertACarToRegisteredCarList(Car car){
+//       String sqlStaement = String.format(
+//               " INSERT INTO " +
+//                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
+//       )
+//    }
 
 
     public String getZoneWaitingList(Valet valet) {
@@ -190,7 +200,7 @@ public class SqlStatement {
         String sqlStatement = String.format(
                 " UPDATE " +
                         DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
-                        " SET STATUS = '%s' WHERE " +
+                        " SET CAR_STATUS = '%s' WHERE " +
                         TB_CURRENT_CAR.LICENSE_TAG.toString() +
                         " = '%s';", car.getStatus(), car.getLicenseTag());
         return sqlStatement;
