@@ -2,11 +2,13 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,18 +29,14 @@ public class JsonResponse {
 
     }
 
-    public void sendCarListObjectResponse(ArrayList<Car> carList) throws IOException {
-
+    public void sendCarListJson(JsonElement jsonElement, int size) throws IOException{
         JsonObject complaint = new JsonObject();
         complaint.addProperty("result", true);
-        Gson gson = new Gson();
-        String json = gson.toJson(carList);
 
-        complaint.add("carList", gson.toJsonTree(carList));
-        complaint.addProperty("count", carList.size());
+        complaint.add("carList", jsonElement);
+        complaint.addProperty("count", size);
 
         sendJson(complaint);
-
     }
 
     public void sendValetListObjectResponse(ArrayList<Valet> valetList) throws IOException {

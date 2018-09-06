@@ -12,39 +12,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 
-@WebServlet(name = "GetZoneWaitingCarListServlet", urlPatterns = {"/GetZoneWaitingCarList"})
+@WebServlet(name = "RegisterNewCar", urlPatterns = {"/RegisterNewCar"})
 
-public class GetZoneWaitingCarListServlet extends HttpServlet {
-
+public class RegisterNewCar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        Valet valet = gson.fromJson(req.getReader(), Valet.class);
+        Car car = gson.fromJson(req.getReader(), Car.class);
 
-        getZoneList(resp, valet);
+        saveTipForValet(resp, car);
     }
 
-    void getZoneList(HttpServletResponse resp, Valet valet) {
+    void saveTipForValet(HttpServletResponse resp, Car car){
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-
-            ArrayList<Car> cars =  dao.getZoneWaitingList(valet);
-
-            if (cars != null) {
-                jsonResp.sendCarListJson(new Gson().toJsonTree(cars), cars.size());
+            if (dao.registerCar(car)) {
+                jsonResp.sendTrueResponse();
             } else {
-                jsonResp.sendErrorResponse("404");
+                jsonResp.sendErrorResponse("303");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                jsonResp.sendErrorResponse("404");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
-
     }
 }

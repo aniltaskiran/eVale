@@ -4,6 +4,24 @@ public class Admin {
     private String venueId;
     private String valetPhone;
     private Boolean authorizationStatus;
+    private String selectedDateFirst;
+    private String selectedDateSecond;
+
+    public String getSelectedDateFirst() {
+        return selectedDateFirst;
+    }
+
+    public void setSelectedDateFirst(String selectedDateFirst) {
+        this.selectedDateFirst = selectedDateFirst;
+    }
+
+    public String getSelectedDateSecond() {
+        return selectedDateSecond;
+    }
+
+    public void setSelectedDateSecond(String selectedDateSecond) {
+        this.selectedDateSecond = selectedDateSecond;
+    }
 
     public Boolean getAuthorizationStatus() {
         return authorizationStatus;

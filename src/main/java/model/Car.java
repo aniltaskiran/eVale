@@ -1,5 +1,7 @@
 package model;
 
+import Security.Hash;
+
 public class Car {
     private String keyNumber;
     private String licenseTag;
@@ -9,14 +11,18 @@ public class Car {
     private String phone;
     private String status;
     private String registrationTimestamp;
-    private String licenseTagHash;
+    private String valetId;
 
-    public String getLicenseTagHash() {
-        return licenseTagHash;
+    public String getValetId() {
+        return valetId;
     }
 
-    public void setLicenseTagHash(String licenseTagHash) {
-        this.licenseTagHash = licenseTagHash;
+    public void setValetId(String valetId) {
+        this.valetId = valetId;
+    }
+
+    public String getLicenseTagHash() {
+        return Hash.md5(getLicenseTag());
     }
 
     public String getRegistrationTimestamp() {

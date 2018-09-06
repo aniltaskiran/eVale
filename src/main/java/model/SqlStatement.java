@@ -16,7 +16,7 @@ public class SqlStatement {
     }
 
     public enum TB_CURRENT_CAR {
-        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LICENSE_TAG_HASH, REGISTER_TIMESTAMP;
+        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LICENSE_TAG_HASH, REGISTER_TIMESTAMP,DELIVER_VALET_ID,REGISTER_VALET_ID, REGISTER_DATE, DELIVER_DATE;
     }
 
     public enum TB_REGISTERED_CAR {
@@ -82,8 +82,7 @@ public class SqlStatement {
     }
 
     public String saveTipForValet(Valet valet) {
-       // TODO: tip kaydedildiğinde current cardan log'a aktar ardından log car'daki
-        // TODO: deliver column'u düzenle ardundan current cardan drop et
+       // TODO: tip kaydedildiğinde current cardan log'a aktar ardından log car'daki deliver column'u düzenle ardundan current cardan drop et
         String sqlStatement = String.format(
            //     "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
                         "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID, LICENSE_TAG)" +
@@ -98,13 +97,13 @@ public class SqlStatement {
     }
 
 
-    public String getValetInfoWithPhone(String phone) {
+    public String getValetInfoWithPhone(Valet valet) {
         String sqlStatement = String.format(
                 "SELECT * FROM " +
                         DB_TABLE_NAMES.TB_VALET.toString() +
                         " WHERE " +
                         PHONE.toString() +
-                        " = '%s'", phone);
+                        " = '%s'", valet.getPhone());
         return  sqlStatement;
     }
 
@@ -156,25 +155,49 @@ public class SqlStatement {
         return sqlStatement;
     }
 
+    /*
+    INSERT INTO TB_REGISTERED_CAR (LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH)
+VALUES ('34BJK1903','1','543434','asdasdas')
+ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
+
+
+     */
+
     public String registerCar (Car car){
        String sqlStatement = String.format(
                "INSERT INTO " +
                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
                        " (LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH) " +
                        " VALUES " +
-                       " ( '%S', '%d', '%S', '%S' );"
-                       , car.getLicenseTag(), car.getBrandId(), car.getPhone(), car.getLicenseTagHash());
+                       " ( '%s', '%d', '%s', '%s')" +
+                       "ON DUPLICATE KEY UPDATE " +
+                       TB_REGISTERED_CAR.BRAND_ID.toString() +
+                       " = '%s', " +
+                       TB_REGISTERED_CAR.PHONE.toString() +
+                       " = '%s';",
+               car.getLicenseTag(),
+               car.getBrandId(),
+               car.getPhone(),
+               car.getLicenseTagHash(),
+               car.getBrandId(),
+               car.getPhone());
        
        return sqlStatement;
     }
 
-//    public String insertACarToRegisteredCarList(Car car){
-//       String sqlStaement = String.format(
-//               " INSERT INTO " +
-//                       DB_TABLE_NAMES.TB_REGISTERED_CAR ()
-//       )
-//    }
 
+    public String saveCarToCurrentCar(Car car) {
+        String sqlStatement = String.format(
+                "INSERT INTO "+ DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        "(LICENSE_TAG, VENUE_ID, KEY_NUMBER, REGISTER_DATE, REGISTER_TIMESTAMP, REGISTER_VALET_ID)" +
+                        "VALUES ('%s','%s','%s',NOW(), UNIX_TIMESTAMP(), '%s');",
+                car.getLicenseTag(),
+               car.getVenueId(),
+                car.getKeyNumber(),
+                car.getValetId());
+
+        return  sqlStatement;
+    }
 
     public String getZoneWaitingList(Valet valet) {
         String sqlStatement = String.format(
@@ -252,6 +275,44 @@ public class SqlStatement {
                         " WHERE " +
                         TB_CURRENT_CAR.VENUE_ID.toString() +
                         " = '%s' ;", valet.getVenueId());
+
+        return sqlStatement;
+    }
+
+    public String getCurrentCarWithDateRange(Admin admin) {
+        String sqlStatement = String.format(
+                "SELECT " +
+                        "REGISTER_DATE, DELIVER_DATE, CRC.LICENSE_TAG, ZONE, RGC.BRAND_ID,VL.FIRSTNAME, VL.SURNAME" +
+                         " FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " AS CRC " +
+                        "INNER JOIN " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " AS RGC ON CRC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = RGC." +
+                        TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                        " INNER JOIN " +
+                        DB_TABLE_NAMES.TB_VALET.toString() +
+                        " AS VL ON VL." +
+                        TB_VALET.PHONE.toString() +
+                        " = CRC." +
+                        TB_CURRENT_CAR.DELIVER_VALET_ID.toString() +
+                        " OR VL." +
+                        TB_VALET.PHONE.toString() +
+                        " = CRC." +
+                        TB_CURRENT_CAR.REGISTER_VALET_ID.toString() +
+                        " WHERE CRC." +
+                        TB_CURRENT_CAR.VENUE_ID.toString() +
+                        " = '%s' AND " +
+                        TB_CURRENT_CAR.REGISTER_DATE.toString() +
+                        " > '%s' AND " +
+                        TB_CURRENT_CAR.REGISTER_DATE.toString() +
+                        " < '%s' " +
+                        ";",
+                admin.getVenueId(),
+                admin.getSelectedDateFirst(),
+                admin.getSelectedDateSecond());
 
         return sqlStatement;
     }

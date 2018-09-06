@@ -19,20 +19,20 @@ public class CheckValetExistServlet extends HttpServlet {
         Gson gson = new Gson();
         Valet valet = gson.fromJson(req.getReader(), Valet.class);
 
-        sendValetInfo(resp, valet.getPhone());
+        sendValetInfo(resp, valet);
     }
 
-    void sendValetInfo(HttpServletResponse resp, String phone){
+    void sendValetInfo(HttpServletResponse resp, Valet valet){
 
         DBConnection dao = new DBConnection();
 
         try {
             JsonResponse jsonResp = new JsonResponse(resp);
 
-            Valet valet =  dao.getValetInfo(phone);
+            Valet respValet =  dao.getValetInfo(valet);
 
-            if (valet != null) {
-                jsonResp.sendValetObjectResponse(valet);
+            if (respValet != null) {
+                jsonResp.sendValetObjectResponse(respValet);
             } else {
                 jsonResp.sendErrorResponse("404");
             }

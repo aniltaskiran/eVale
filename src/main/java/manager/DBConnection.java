@@ -33,54 +33,6 @@ public class DBConnection {
         }
     }
 
-/*
-    public Boolean registerCustomerToStandBy(Customer customer){
-        try {
-            startConnection();
-            String sqlStatement = String.format(
-                    "REPLACE INTO " +
-                            DB_TABLE_NAMES.TB_STAND_BY_CUSTOMERS.toString() +
-                            "(PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID,ZONE, STATUS, DATE, TIMESTAMP)" +
-                            " values ('%s','%s','%s','%s','%s', '%s', NOW(), '%s');",
-                    customer.getPhone(),
-                    customer.getPhoneHash(),
-                    customer.getCarModel(),
-                    customer.getCarModelID(),
-                    customer.getZone(),
-                    customer.getStatus(),
-                    CurrentTimestamp.getTimestamp());
-
-            statement = connection.createStatement();
-            statement.executeUpdate(sqlStatement);
-
-            String sqlStatement2 = String.format(
-                    "INSERT INTO " +
-                            DB_TABLE_NAMES.BACKUP_TB_STAND_BY_CUSTOMERS.toString() +
-                            "(PHONE, PHONE_HASH, CAR_MODEL, CAR_MODEL_ID,ZONE, STATUS, DATE, TIMESTAMP)" +
-                            " values ('%s','%s','%s','%s','%s', '%s', NOW(),'%s');",
-                    customer.getPhone(),
-                    customer.getPhoneHash(),
-                    customer.getCarModel(),
-                    customer.getCarModelID(),
-                    customer.getZone(),
-                    customer.getStatus(),
-                    CurrentTimestamp.getTimestamp());
-
-            statement = connection.createStatement();
-            statement.executeUpdate(sqlStatement2);
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-            return false;
-        } finally {
-            close();
-        }
-        return true;
-    }
-    */
-
     public Boolean setDeliveredCar(Car car) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -102,22 +54,20 @@ public class DBConnection {
     public Boolean saveTipForValet(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        // TODO: SQL STATEMENT
         return executeUpdateWithStatement(sqlStatement.saveTipForValet(valet));
     }
 
     public Boolean registerCar(Car car) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        // TODO: SQL STATEMENT
-        return executeUpdateWithStatement(sqlStatement.registerCar(car));
+        if(executeUpdateWithStatement(sqlStatement.registerCar(car))) {
+            startConnection();
+            return executeUpdateWithStatement(sqlStatement.saveCarToCurrentCar(car));
+        } else {
+            return false;
+        }
     }
 
-    public Boolean removeAuthorizationFromValet(Valet valet) {
-        startConnection();
-        SqlStatement sqlStatement = new SqlStatement();
-        return executeUpdateWithStatement(sqlStatement.removeValetAuthorization(valet));
-    }
 
     public Boolean updateAuthorizationForValet(Admin admin) {
         startConnection();
@@ -179,6 +129,20 @@ public class DBConnection {
         resultSet = executeQueryWithStatement(sqlStatement.getCurrentCarList(valet));
         try {
             return parseCurrentCarResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
+
+    public ArrayList<CAR_LOG> getCurrentCarListWithDate(Admin admin){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        resultSet = executeQueryWithStatement(sqlStatement.getCurrentCarWithDateRange(admin));
+        try {
+            return parseCurrentCarWithDateRangeResultSet(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -261,7 +225,7 @@ public class DBConnection {
     public Car getPhoneAndBrandId (Car car){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-       // ResultSet resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
+        resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
         try{
             return  parseGetPhoneAndBrandIdResultSet(resultSet);
         } catch (Exception e){
@@ -384,6 +348,26 @@ public class DBConnection {
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             car.setRegistrationTimestamp(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString()));
             carList.add(car);
+        }
+
+        return carList;
+    }
+
+    public ArrayList<CAR_LOG> parseCurrentCarWithDateRangeResultSet(ResultSet resultSet) throws Exception {
+        ArrayList <CAR_LOG> carList = new ArrayList<CAR_LOG>();
+        while(resultSet.next()){
+//REGISTER_DATE, DELIVER_DATE, CRC.LICENSE_TAG, ZONE, RGC.BRAND_ID,VL.FIRSTNAME, VL.SURNAME
+            CAR_LOG car = new CAR_LOG();
+            car.setRegisterDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_DATE.toString()));
+            car.setDeliverDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.DELIVER_DATE.toString()));
+            car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
+            car.setBrandId(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
+            car.setValetFirstName(resultSet.getString(SqlStatement.TB_VALET.FIRSTNAME.toString()));
+            car.setValetSurname(resultSet.getString(SqlStatement.TB_VALET.SURNAME.toString()));
+
+            carList.add(car);
+
         }
 
         return carList;

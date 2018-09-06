@@ -33,7 +33,7 @@ public class GetCurrentCarListServlet extends HttpServlet {
             ArrayList<Car> cars =  dao.getCurrentCarList(valet);
 
             if (cars != null) {
-                jsonResp.sendCarListObjectResponse(cars);
+                jsonResp.sendCarListJson(new Gson().toJsonTree(cars), cars.size());
             } else {
                 jsonResp.sendErrorResponse("404");
             }
