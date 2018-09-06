@@ -69,11 +69,12 @@ public class SqlStatement {
     public String saveTipForValet(Valet valet) {
         String sqlStatement = String.format(
                 "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
-                        "(PHONE, DATE, TIMESTAMP, INCOME)" +
-                        "VALUES ('%s', NOW(), '%s', '%s');",
+                        "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID)" +
+                        "VALUES ('%s', NOW(), '%s', '%s', '%s');",
                 valet.getPhone(),
                 valet.getTimestamp(),
-                valet.getIncome());
+                valet.getIncome(),
+                valet.getVenueId());
 
         return  sqlStatement;
     }
