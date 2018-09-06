@@ -106,6 +106,13 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.saveTipForValet(valet));
     }
 
+    public Boolean registerCar(Car car) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        // TODO: SQL STATEMENT
+        return executeUpdateWithStatement(sqlStatement.registerCar(car));
+    }
+
     public Boolean giveAuthorizationToValet(Admin admin) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -207,7 +214,7 @@ public class DBConnection {
         SqlStatement sqlStatement = new SqlStatement();
         ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkKeyNumberIsAvailable(car));
         try {
-            return parseGeneralIsAvailable(resultSet);
+            return parseGenericTypeIsAvailable(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -221,7 +228,7 @@ public class DBConnection {
         SqlStatement sqlStatement = new SqlStatement();
         ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkLicenseTagIsAvailable(car));
         try{
-            return parseGeneralIsAvailable(resultSet);
+            return parseGenericTypeIsAvailable(resultSet);
         } catch (Exception e){
             e.printStackTrace();
             return false;
@@ -231,12 +238,12 @@ public class DBConnection {
 
     }
 
-    public boolean checkCarIsAvailable (Car car){
+    public boolean checkCarIsRegistered(Car car){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
         ResultSet resultSet = executeQueryWithStatement(sqlStatement.checkCarIsAvailable(car));
         try{
-            return parseGeneralIsAvailable(resultSet);
+            return parseCarIsRegistered(resultSet);
         } catch (Exception e){
             e.printStackTrace();
             return false;
@@ -250,7 +257,7 @@ public class DBConnection {
         SqlStatement sqlStatement = new SqlStatement();
        // ResultSet resultSet = executeQueryWithStatement(sqlStatement.getPhoneAndBrandId(car));
         try{
-            return  parsegetPhoneAndBrandIdResultSet(resultSet);
+            return  parseGetPhoneAndBrandIdResultSet(resultSet);
         } catch (Exception e){
             e.printStackTrace();
             return null;
@@ -377,14 +384,21 @@ public class DBConnection {
     }
 
 
-    public boolean parseGeneralIsAvailable(ResultSet resultSet) throws Exception{
+    public boolean parseGenericTypeIsAvailable(ResultSet resultSet) throws Exception{
         while (resultSet.next()){
             return false;
         }
         return true;
     }
 
-    public Car parsegetPhoneAndBrandIdResultSet (ResultSet resultSet) throws Exception {
+    public boolean parseCarIsRegistered(ResultSet resultSet) throws Exception{
+        while (resultSet.next()){
+            return true;
+        }
+        return false;
+    }
+
+    public Car parseGetPhoneAndBrandIdResultSet(ResultSet resultSet) throws Exception {
 
         while(resultSet.next()){
 
