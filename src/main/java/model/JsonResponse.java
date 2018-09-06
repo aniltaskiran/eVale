@@ -41,6 +41,20 @@ public class JsonResponse {
 
     }
 
+    public void sendValetListObjectResponse(ArrayList<Valet> valetList) throws IOException {
+
+        JsonObject complaint = new JsonObject();
+        complaint.addProperty("result", true);
+        Gson gson = new Gson();
+        String json = gson.toJson(valetList);
+
+        complaint.add("carList", gson.toJsonTree(valetList));
+        complaint.addProperty("count", valetList.size());
+
+        sendJson(complaint);
+
+    }
+
     public void sendValetObjectResponse(Valet valet) throws IOException {
         JsonObject complaint = new JsonObject();
         Gson gson = new Gson();

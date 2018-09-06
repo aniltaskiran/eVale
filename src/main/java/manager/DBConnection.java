@@ -132,6 +132,19 @@ public class DBConnection {
         }
     }
 
+    public ArrayList<Valet> getValetPerformance(Valet valet){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        ResultSet resultSet = executeQueryWithStatement(sqlStatement.getValetPerformance(valet));
+        try {
+            return parseTBValetResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
     public ArrayList<Car> getDeliveryWaitingList(Valet valet){
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -180,7 +193,7 @@ public class DBConnection {
         SqlStatement sqlStatement = new SqlStatement();
         ResultSet resultSet = executeQueryWithStatement(sqlStatement.getValetInfoWithPhone(phoneNumber));
         try {
-            return parseTBValetResultSet(resultSet);
+            return parseTBValetObjectResultSet(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -271,7 +284,7 @@ public class DBConnection {
         }
     }
 
-    public Valet parseTBValetResultSet(ResultSet resultSet) throws Exception {
+    public Valet parseTBValetObjectResultSet(ResultSet resultSet) throws Exception {
         Valet valet = null;
         while(resultSet.next()){
 
@@ -288,7 +301,18 @@ public class DBConnection {
         return valet;
     }
 
+    public ArrayList<Valet> parseTBValetResultSet(ResultSet resultSet) throws Exception {
+        ArrayList <Valet> valetList = new ArrayList<Valet>();
+        while(resultSet.next()){
 
+            Valet valet = new Valet();
+
+
+            valetList.add(valet);
+        }
+
+        return valetList;
+    }
 
     public ArrayList<Zone> parseTBZoneResultSet(ResultSet resultSet) throws Exception {
         ArrayList <Zone> zoneList = new ArrayList<Zone>();

@@ -39,6 +39,21 @@ public class SqlStatement {
 
         return  sqlStatement;
     }
+    
+    public String getValetPerformance(String venueId) {
+
+        //  select * from TB_VALET_INCOME WHERE VENUE_ID = 35;
+        String sqlStatement = String.format(
+                "SELECT * FROM " +
+                        DB_TABLE_NAMES.SOURCE_TB_ZONE.toString() +
+                        " WHERE " +
+                        SOURCE_TB_ZONE.VENUE_ID.toString() +
+                        " = '%s';",
+                venueId);
+
+        return  sqlStatement;
+    }
+
 
     public String setValetInfo(Valet valet) {
         String sqlStatement = String.format(
