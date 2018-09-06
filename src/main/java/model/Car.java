@@ -8,6 +8,15 @@ public class Car {
     private String zone;
     private String carOwnerPhone;
     private String status;
+    private String registrationTimestamp;
+
+    public String getRegistrationTimestamp() {
+        return registrationTimestamp;
+    }
+
+    public void setRegistrationTimestamp(String registrationTimestamp) {
+        this.registrationTimestamp = registrationTimestamp;
+    }
 
     public String getStatus() {
         return status;

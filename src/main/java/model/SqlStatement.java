@@ -4,11 +4,14 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR;
+       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR,TB_VALET_INCOME;
     }
 
     public enum TB_VALET {
         PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID;
+    }
+    public enum TB_VALET_INCOME {
+        PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID;
     }
 
     public enum SOURCE_TB_ZONE {
@@ -16,7 +19,7 @@ public class SqlStatement {
     }
 
     public enum TB_CURRENT_CAR {
-        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LICENSE_TAG_HASH;
+        LICENSE_TAG, VENUE_ID, KEY_NUMBER, ZONE, CAR_STATUS, LICENSE_TAG_HASH, REGISTER_TIMESTAMP;
     }
 
     public enum TB_REGISTERED_CAR {
@@ -59,6 +62,18 @@ public class SqlStatement {
                 admin.getValetPhone(),
                 admin.getVenueId(),
                 admin.getVenueId());
+
+        return  sqlStatement;
+    }
+
+    public String saveTipForValet(Valet valet) {
+        String sqlStatement = String.format(
+                "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
+                        "(PHONE, DATE, TIMESTAMP, INCOME)" +
+                        "VALUES ('%s', NOW(), '%s', '%s');",
+                valet.getPhone(),
+                valet.getTimestamp(),
+                valet.getIncome());
 
         return  sqlStatement;
     }
@@ -177,6 +192,34 @@ public class SqlStatement {
                         " WHERE " +
                         TB_CURRENT_CAR.ZONE.toString() +
                         " IS NULL AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
+                        " = '%s' ;", valet.getVenueId());
+
+        return sqlStatement;
+    }
+
+    public String getCurrentCarList(Valet valet) {
+        String sqlStatement = String.format(
+                " SELECT CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        ", CC." +
+                        TB_CURRENT_CAR.KEY_NUMBER.toString() +
+                        ", CC." +
+                        TB_CURRENT_CAR.ZONE.toString() +
+                        ", CC." +
+                        TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString() +
+                        ", RGC." +
+                        TB_REGISTERED_CAR.BRAND_ID.toString() +
+                        " FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " AS CC " +
+                        "INNER JOIN " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " AS RGC ON CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = RGC." +
+                        TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                        " WHERE " +
+                        TB_CURRENT_CAR.VENUE_ID.toString() +
                         " = '%s' ;", valet.getVenueId());
 
         return sqlStatement;

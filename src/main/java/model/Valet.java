@@ -1,5 +1,7 @@
 package model;
 
+import Utils.CurrentTimestamp;
+
 public class Valet {
     private boolean isAuthorized;
     private boolean isAdmin;
@@ -7,6 +9,15 @@ public class Valet {
     private String firstName;
     private String surname;
     private String venueId;
+    private String income;
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -14,6 +25,10 @@ public class Valet {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getTimestamp(){
+        return CurrentTimestamp.getTimestamp();
     }
 
     public String getSurname() {
