@@ -11,6 +11,10 @@ public class Valet {
     private String venueId;
     private String income;
     private String incomeLicenseTag;
+    private String registeredCarCount;
+    private String deliveredCarCount;
+
+
 
     public String getIncomeLicenseTag() {
         return incomeLicenseTag;

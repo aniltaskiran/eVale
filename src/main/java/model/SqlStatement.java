@@ -4,14 +4,11 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR,TB_VALET_INCOME;
+       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR;
     }
 
     public enum TB_VALET {
         PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID;
-    }
-    public enum TB_VALET_INCOME {
-        PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID;
     }
 
     public enum SOURCE_TB_ZONE {
@@ -45,7 +42,8 @@ public class SqlStatement {
         //  select * from TB_VALET_INCOME WHERE VENUE_ID = 35;
         String sqlStatement = String.format(
                 "SELECT * FROM " +
-                        DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
+                        // TODO: TB NAME
+                       // DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
                         " WHERE " +
                         SOURCE_TB_ZONE.VENUE_ID.toString() +
                         " = '%s';",
@@ -82,8 +80,10 @@ public class SqlStatement {
     }
 
     public String saveTipForValet(Valet valet) {
+       // TODO: tip kaydedildiğinde current cardan log'a aktar ardından log car'daki
+        // TODO: deliver column'u düzenle ardundan current cardan drop et
         String sqlStatement = String.format(
-                "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
+           //     "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
                         "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID, LICENSE_TAG)" +
                         "VALUES ('%s', NOW(), '%s', '%s', '%s', '%s');",
                 valet.getPhone(),

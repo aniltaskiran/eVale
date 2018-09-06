@@ -313,7 +313,7 @@ public class DBConnection {
         while(resultSet.next()){
 
             Valet valet = new Valet();
-
+            // TODO: DOLDUR
 
             valetList.add(valet);
         }
