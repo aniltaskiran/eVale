@@ -1,11 +1,10 @@
-package handler.Login;
+package handler.ValetLoginAndRegistration;
 
 import com.google.gson.Gson;
 import manager.DBConnection;
 import model.JsonResponse;
 import model.Valet;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
