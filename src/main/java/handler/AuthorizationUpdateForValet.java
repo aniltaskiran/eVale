@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import manager.DBConnection;
 import model.Admin;
 import model.JsonResponse;
+import model.Valet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,19 +20,19 @@ public class AuthorizationUpdateForValet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        Admin admin = gson.fromJson(req.getReader(), Admin.class);
+        Valet valet = gson.fromJson(req.getReader(), Valet.class);
 
-        giveAuthorizationToValet(resp, admin);
+        giveAuthorizationToValet(resp, valet);
     }
 
-    void giveAuthorizationToValet(HttpServletResponse resp, Admin admin){
+    void giveAuthorizationToValet(HttpServletResponse resp, Valet valet){
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
 
-            if (dao.updateAuthorizationForValet(admin)) {
+            if (dao.setValetInfo(valet)) {
                 jsonResp.sendTrueResponse();
             } else {
                 jsonResp.sendErrorResponse("404");

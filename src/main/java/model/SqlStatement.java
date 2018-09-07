@@ -55,28 +55,19 @@ public class SqlStatement {
 
     public String setValetInfo(Valet valet) {
         String sqlStatement = String.format(
-                "REPLACE INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
+                "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
                         " (PHONE, FIRSTNAME, SURNAME, IS_AUTHORIZED, IS_ADMIN, VENUE_ID) " +
-                        "VALUES ('%s','%s', '%s',true,false,'%s');",
+                        "VALUES ('%s','%s', '%s',%B, false,'%s') " +
+                        "ON DUPLICATE KEY UPDATE FIRSTNAME = '%s', SURNAME = '%s', IS_AUTHORIZED = %B, VENUE_ID = '%s';",
                 valet.getPhone(),
                 valet.getFirstName(),
                 valet.getSurname(),
+                valet.isAuthorized(),
+                valet.getVenueId(),
+                valet.getFirstName(),
+                valet.getSurname(),
+                valet.isAuthorized(),
                 valet.getVenueId());
-
-        return  sqlStatement;
-    }
-
-    public String updateAuthorizationForValet(Admin admin) {
-        String sqlStatement = String.format(
-                "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET.toString() +
-                        "(PHONE, IS_AUTHORIZED, VENUE_ID)" +
-                        "VALUES ('%s',%B, '%s')" +
-                        "ON DUPLICATE KEY UPDATE IS_AUTHORIZED = %B, VENUE_ID = '%s';",
-                admin.getValetPhone(),
-                admin.getAuthorizationStatus(),
-                admin.getVenueId(),
-                admin.getAuthorizationStatus(),
-                admin.getVenueId());
 
         return  sqlStatement;
     }

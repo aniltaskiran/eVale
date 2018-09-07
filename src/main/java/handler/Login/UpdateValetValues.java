@@ -1,4 +1,4 @@
-package handler;
+package handler.Login;
 
 import com.google.gson.Gson;
 import manager.DBConnection;
@@ -12,34 +12,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "CheckValetExistServlet", urlPatterns = {"/CheckValetExist"})
-public class CheckValetExistServlet extends HttpServlet {
+@WebServlet(name = "UpdateValetValues", urlPatterns = {"/UpdateValetValues"})
+
+public class UpdateValetValues extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Gson gson = new Gson();
         Valet valet = gson.fromJson(req.getReader(), Valet.class);
 
-        sendValetInfo(resp, valet);
+        setValetInfo(resp, valet);
     }
 
-    void sendValetInfo(HttpServletResponse resp, Valet valet){
+    void setValetInfo(HttpServletResponse resp, Valet valet){
 
         DBConnection dao = new DBConnection();
+        JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-            JsonResponse jsonResp = new JsonResponse(resp);
 
-            Valet respValet =  dao.getValetInfo(valet);
-
-            if (respValet != null) {
-                jsonResp.sendValetObjectResponse(respValet);
+            if (dao.setValetInfo(valet)) {
+                jsonResp.sendTrueResponse();
             } else {
                 jsonResp.sendErrorResponse("404");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-
+            try {
+                jsonResp.sendErrorResponse("404");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }

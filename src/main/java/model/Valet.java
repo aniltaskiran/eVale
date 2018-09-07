@@ -3,8 +3,9 @@ package model;
 import Utils.CurrentTimestamp;
 
 public class Valet {
-    private boolean isAuthorized;
-    private boolean isAdmin;
+
+    private Boolean isAuthorized;
+    private Boolean isAdmin;
     private String phone;
     private String firstName;
     private String surname;
@@ -13,8 +14,6 @@ public class Valet {
     private String incomeLicenseTag;
     private String registeredCarCount;
     private String deliveredCarCount;
-
-
 
 
     public String getIncomeLicenseTag() {

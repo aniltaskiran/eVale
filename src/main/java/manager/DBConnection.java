@@ -68,13 +68,6 @@ public class DBConnection {
         }
     }
 
-
-    public Boolean updateAuthorizationForValet(Admin admin) {
-        startConnection();
-        SqlStatement sqlStatement = new SqlStatement();
-        return executeUpdateWithStatement(sqlStatement.updateAuthorizationForValet(admin));
-    }
-
     public Boolean setValetInfo(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
@@ -165,7 +158,7 @@ public class DBConnection {
         }
     }
 
-    public Valet getValetInfo(Valet valet) {
+    public Valet getValetInfoWithPhone(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
         resultSet = executeQueryWithStatement(sqlStatement.getValetInfoWithPhone(valet));

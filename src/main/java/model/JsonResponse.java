@@ -36,6 +36,7 @@ public class JsonResponse {
         complaint.add("carList", jsonElement);
         complaint.addProperty("count", size);
 
+
         sendJson(complaint);
     }
 
@@ -88,6 +89,7 @@ public class JsonResponse {
 
         sendJson(complaint);
     }
+
 
     private void sendJson(JsonObject json) throws IOException {
         response.setContentType("application/json");
