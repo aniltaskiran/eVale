@@ -1,9 +1,8 @@
 package handler;
 
 import com.google.gson.Gson;
-import manager.DBConnection;
+import Controller.DBConnection;
 import model.JsonResponse;
-import model.Valet;
 import model.Zone;
 
 import javax.servlet.ServletException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 
 @WebServlet(name = "GetZoneListServlet", urlPatterns = {"/GetZoneList"})

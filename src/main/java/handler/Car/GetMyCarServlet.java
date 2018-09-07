@@ -1,12 +1,5 @@
-package handler;
+package handler.Car;
 
-import Security.Hash;
-
-import manager.DBConnection;
-
-import model.Customer;
-import model.CustomerStatus;
-import model.JsonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

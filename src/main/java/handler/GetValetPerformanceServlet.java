@@ -1,10 +1,9 @@
 package handler;
 
 import com.google.gson.Gson;
-import manager.DBConnection;
+import Controller.DBConnection;
 import model.JsonResponse;
 import model.Valet;
-import model.Zone;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

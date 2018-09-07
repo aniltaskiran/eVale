@@ -1,8 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
-import manager.DBConnection;
-import model.Admin;
+import Controller.DBConnection;
 import model.Car;
 import model.JsonResponse;
 

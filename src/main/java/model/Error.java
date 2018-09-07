@@ -1,7 +1,8 @@
 package model;
 
 public enum Error {
-     BAD_REQUEST(400), UNAUTHORIZED(401), NOT_FOUND(404);
+     BAD_REQUEST(400), UNAUTHORIZED(401), NOT_FOUND(404),INTERNAL_DB_ERROR(505);
+
 
     private final int code;
 
@@ -19,6 +20,8 @@ public enum Error {
             case BAD_REQUEST : return "Bad Request";
             case NOT_FOUND   : return "Not found";
             case UNAUTHORIZED: return "Unauthorized";
+            case INTERNAL_DB_ERROR: return "Fuck up nights!!!";
+
             default: return "EXCEPTION";
         }
 

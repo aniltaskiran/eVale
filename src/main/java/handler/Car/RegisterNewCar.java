@@ -1,10 +1,9 @@
-package handler;
+package handler.Car;
 
 import com.google.gson.Gson;
-import manager.DBConnection;
-import model.Admin;
+import Controller.DBConnection;
+import model.Car;
 import model.JsonResponse;
-import model.Valet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,28 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "AuthorizationUpdateForValet", urlPatterns = {"/AuthorizationUpdateForValet"})
+@WebServlet(name = "RegisterNewCar", urlPatterns = {"/RegisterNewCar"})
 
-public class AuthorizationUpdateForValet extends HttpServlet {
+public class RegisterNewCar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
-        Valet valet = gson.fromJson(req.getReader(), Valet.class);
+        Car car = gson.fromJson(req.getReader(), Car.class);
 
-        giveAuthorizationToValet(resp, valet);
+        saveTipForValet(resp, car);
     }
 
-    void giveAuthorizationToValet(HttpServletResponse resp, Valet valet){
+    void saveTipForValet(HttpServletResponse resp, Car car){
 
         DBConnection dao = new DBConnection();
         JsonResponse jsonResp = new JsonResponse(resp);
 
         try {
-
-            if (dao.setValetInfo(valet)) {
+            if (dao.registerCar(car)) {
                 jsonResp.sendTrueResponse();
             } else {
-                jsonResp.sendErrorResponse("404");
+                jsonResp.sendErrorResponse("303");
             }
         } catch (Exception e) {
             e.printStackTrace();

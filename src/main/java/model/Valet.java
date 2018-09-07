@@ -16,20 +16,19 @@ public class Valet {
     private String deliveredCarCount;
 
 
+    public Boolean isAvailableToUpdateDB(){
+        if (isAuthorized != null && venueId != null && phone != null) {
+            return true;
+        }
+        return false;
+    }
+
     public String getIncomeLicenseTag() {
         return incomeLicenseTag;
     }
 
-    public void setIncomeLicenseTag(String incomeLicenseTag) {
-        this.incomeLicenseTag = incomeLicenseTag;
-    }
-
     public String getIncome() {
         return income;
-    }
-
-    public void setIncome(String income) {
-        this.income = income;
     }
 
     public String getFirstName() {
@@ -50,10 +49,6 @@ public class Valet {
 
     public boolean isAuthorized() {
         return isAuthorized;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
     }
 
     public String getVenueId() {

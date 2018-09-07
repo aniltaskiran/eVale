@@ -1,7 +1,7 @@
-package handler;
+package handler.Car;
 
 import com.google.gson.Gson;
-import manager.DBConnection;
+import Controller.DBConnection;
 import model.Car;
 import model.JsonResponse;
 
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "CheckCarRegistrationServlet", urlPatterns = {"/CheckCarRegistration"})
+@WebServlet(name = "CheckCarIsAvailable", urlPatterns = {"/CheckCarIsAvailable"})
 
-public class CheckCarRegistrationServlet extends HttpServlet {
+public class CheckCarIsAvailable extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             Gson gson = new Gson();
