@@ -1,9 +1,11 @@
 package handler;
 
+import Controller.ResponseController;
 import com.google.gson.Gson;
 import Controller.DBConnection;
 import model.Car;
 import model.JsonResponse;
+import model.ResponseType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,32 +19,7 @@ import java.io.IOException;
 
 public class SetZoneToCarServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
-        Car car = gson.fromJson(req.getReader(), Car.class);
-
-        setZoneToCar(resp, car);
-    }
-
-    void setZoneToCar(HttpServletResponse resp, Car car){
-
-        DBConnection dao = new DBConnection();
-        JsonResponse jsonResp = new JsonResponse(resp);
-
-
-        try {
-            if (dao.setZoneToCar(car)) {
-                jsonResp.sendTrueResponse();
-            } else {
-                jsonResp.sendErrorResponse("303");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                jsonResp.sendErrorResponse("404");
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        new ResponseController(resp, req).sendResponse(ResponseType.SetZoneToCar);
     }
 }

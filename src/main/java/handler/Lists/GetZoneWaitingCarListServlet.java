@@ -1,4 +1,4 @@
-package handler.Car;
+package handler.Lists;
 
 import Controller.ResponseController;
 
@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "RegisterNewCar", urlPatterns = {"/RegisterNewCar"})
 
-public class RegisterNewCar extends HttpServlet {
+@WebServlet(name = "GetZoneWaitingCarListServlet", urlPatterns = {"/GetZoneWaitingCarList"})
+
+public class GetZoneWaitingCarListServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        new ResponseController(resp, req).sendResponse(ResponseType.RegisterNewCar);
+        new ResponseController(resp, req).sendResponse(ResponseType.ZoneWaitingCarList);
     }
 }

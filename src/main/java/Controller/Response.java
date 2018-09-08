@@ -22,20 +22,20 @@ public class Response {
         this.response = response;
     }
 
-    public < E > void sendObject(E object){
+    public < E > void sendObject(String key, E object){
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("result", result);
-        jsonObject.add(object.getClass().getSimpleName(), new Gson().toJsonTree(object));
+        jsonObject.add(key, new Gson().toJsonTree(object));
 
         sendJson(jsonObject);
     }
 
-    public < E > void sendObject(ArrayList<E> arrayList){
+    public < E > void sendObject(String key, ArrayList<E> arrayList){
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("result", result);
-        jsonObject.add(arrayList.getClass().toString(), new Gson().toJsonTree(arrayList));
+        jsonObject.add(key, new Gson().toJsonTree(arrayList));
         jsonObject.addProperty("count", arrayList.size());
 
         sendJson(jsonObject);

@@ -1,14 +1,9 @@
 package Controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import model.Error;
 import model.ResponseType;
-import model.Valet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class ResponseController {
     HttpServletResponse response;
@@ -28,6 +23,17 @@ public class ResponseController {
                 case UpdateValetInfo:
                     new ValetController().updateValetInfo(request, response);
                     break;
+                case CheckCarIsAvailable:
+                    new CarController().checkRegistrationAvailability(request, response);
+                    break;
+                case RegisterNewCar:
+                    new CarController().registerNewCar(request, response);
+                    break;
+                case ZoneWaitingCarList:
+                    new ValetController().getZoneWaitingCarList(request, response);
+                    break;
+                case SetZoneToCar:
+                    new CarController().setZoneToCar(request, response);
             }
     }
 }

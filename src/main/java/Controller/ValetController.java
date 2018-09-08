@@ -2,13 +2,16 @@ package Controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Car;
 import model.Error;
+import model.JsonResponse;
 import model.Valet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ValetController {
 
@@ -36,11 +39,29 @@ public class ValetController {
             if (valet == null){
                 new Response(response).sendErrorResponse(Error.NOT_FOUND);
             } else if (valet.isAuthorized()){
-                new Response(response).sendObject(valet);
+                new Response(response).sendObject("valet", valet);
             } else {
                 new Response(response).sendErrorResponse(Error.UNAUTHORIZED);
             }
         }
+    }
+
+    public void getZoneWaitingCarList(HttpServletRequest request, HttpServletResponse response) {
+        Valet valet = getValetObject(request);
+
+        if (valet == null || valet.getVenueId() == null) {
+            new Response(response).sendErrorResponse(Error.BAD_REQUEST);
+        } else {
+
+            ArrayList<Car> cars = getZoneWaitingListFromDB(valet);
+            if (cars == null) {
+                new Response(response).sendErrorResponse(Error.BAD_REQUEST);
+            } else {
+                new Response(response).sendObject("cars", cars);
+            }
+        }
+
+
     }
 
 
@@ -79,4 +100,9 @@ public class ValetController {
         }
     }
 
+
+    private ArrayList<Car> getZoneWaitingListFromDB(Valet valet) {
+        DBConnection dao = new DBConnection() ;
+        return dao.getZoneWaitingList(valet);
+    }
 }

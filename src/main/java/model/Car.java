@@ -6,7 +6,7 @@ public class Car {
     private String keyNumber;
     private String licenseTag;
     private String venueId;
-    private int brandId;
+    private Integer brandId;
     private String zone;
     private String phone;
     private String status;
@@ -49,11 +49,11 @@ public class Car {
         this.zone = zone;
     }
 
-    public int getBrandId() {
+    public Integer getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(int brandId) {
+    public void setBrandId(Integer brandId) {
         this.brandId = brandId;
     }
 

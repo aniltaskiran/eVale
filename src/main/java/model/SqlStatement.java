@@ -322,7 +322,6 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
 
 
     public String setDeliveredCar (Car car){
-
         String sqlStatement = String.format(
                 " UPDATE " +
                         DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
