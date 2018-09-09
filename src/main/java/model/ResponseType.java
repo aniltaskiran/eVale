@@ -1,8 +1,8 @@
 package model;
 
 public enum ResponseType {
-    GetValetInfo, UpdateValetInfo,
+    GetValetInfo, UpdateValetInfo, saveTipAndMoveToLog,
     CheckCarIsAvailable, RegisterNewCar,
-    ZoneWaitingCarList,
-    SetZoneToCar;
+    ZoneWaitingCarList, DeliveryWaitingList,
+    SetZoneToCar, SetCarStatus;
 }

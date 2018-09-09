@@ -4,13 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Car;
 import model.Error;
-import model.JsonResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CarController {
+
+
+    public enum ChangeType {
+        setZoneToCar, setCarStatus;
+    }
 
     public void registerNewCar(HttpServletRequest request, HttpServletResponse response) {
         Car car = getCarObject(request);
@@ -78,23 +82,21 @@ public class CarController {
             return;
         }
 
-        if (setZoneToCar(car)) {
-            new Response(response).sendResponse();
-        } else {
-            new Response(response).sendErrorResponse(Error.CANT_UPDATE_ZONE);
-        }
+        changeInfoAboutCarOnDB(ChangeType.setZoneToCar, car, response);
     }
 
-    private Boolean setZoneToCar(Car car) {
-        DBConnection dao = new DBConnection();
-        try {
-            return dao.setZoneToCar(car);
+    public void setCarStatus(HttpServletRequest request, HttpServletResponse response){
+        Car car = getCarObject(request);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        if (car == null || car.getLicenseTag() == null || car.getStatus() == null) {
+            new Response(response).sendErrorResponse(Error.BAD_REQUEST);
+            return;
         }
+
+        changeInfoAboutCarOnDB(ChangeType.setCarStatus, car, response);
+
     }
+
 
 
     /*
@@ -159,6 +161,30 @@ public class CarController {
         }
     }
 
+    private void changeInfoAboutCarOnDB(ChangeType type, Car car, HttpServletResponse response) {
+        Boolean isSuccess;
+
+        DBConnection dao = new DBConnection();
+        try {
+            if (type == ChangeType.setZoneToCar){
+                isSuccess = dao.setZoneToCar(car);
+            } else if (type == ChangeType.setCarStatus){
+                isSuccess = dao.setCarStatus(car);
+            } else {
+                isSuccess = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            isSuccess = false;
+        }
+
+        if (isSuccess){
+            new Response(response).sendResponse();
+        } else {
+            new Response(response).sendErrorResponse(Error.INTERNAL_DB_ERROR);
+        }
+    }
+
     private Boolean checkIsBadRequest(Car car){
         if (car == null) {
             return true;
@@ -182,7 +208,8 @@ public class CarController {
                 || car.getKeyNumber() == null
                 || car.getVenueId() == null
                 || car.getBrandId() == null
-                || car.getPhone() == null) {
+                || car.getPhone() == null
+                || car.getValetId() == null) {
 
             return true;
 

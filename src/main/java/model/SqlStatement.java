@@ -4,7 +4,10 @@ import static model.SqlStatement.TB_VALET.PHONE;
 
 public class SqlStatement {
    public enum DB_TABLE_NAMES{
-       TB_VALET, SOURCE_TB_ZONE, TB_CURRENT_CAR, TB_REGISTERED_CAR;
+       TB_VALET, TB_CURRENT_CAR, TB_REGISTERED_CAR,
+       SOURCE_TB_ZONE,
+       LOG_TB_CAR
+       ;
     }
 
     public enum TB_VALET {
@@ -22,6 +25,9 @@ public class SqlStatement {
     public enum TB_REGISTERED_CAR {
        LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH;;
     }
+
+    public static String CAR_WAITING_DELIVERY_STATUS = "2";
+    public static String CAR_DELIVERED_STATUS = "0";
 
     public String getZoneList(String venueId) {
       //  SELECT * FROM SOURCE_TB_ZONE WHERE VENUE_ID = '345001';
@@ -72,20 +78,32 @@ public class SqlStatement {
         return  sqlStatement;
     }
 
-    public String saveTipForValet(Valet valet) {
-       // TODO: tip kaydedildiğinde current cardan log'a aktar ardından log car'daki deliver column'u düzenle ardundan current cardan drop et
+    public String saveTipAndMoveCarToLogCar(Valet valet) {
+
         String sqlStatement = String.format(
-           //     "INSERT INTO "+ DB_TABLE_NAMES.TB_VALET_INCOME.toString() +
-                        "(PHONE, DATE, TIMESTAMP, INCOME, VENUE_ID, LICENSE_TAG)" +
-                        "VALUES ('%s', NOW(), '%s', '%s', '%s', '%s');",
-                valet.getPhone(),
-                valet.getTimestamp(),
-                valet.getIncome(),
+                "INSERT INTO "+ DB_TABLE_NAMES.LOG_TB_CAR.toString() +
+                "(VENUE_ID, LICENSE_TAG, KEY_NUMBER, CAR_OWNER_PHONE, CAR_BRAND_ID, " +
+                        "LAST_ZONE, CAR_STATUS, REGISTER_DATE, REGISTER_TIMESTAMP, " +
+                        "REGISTER_VALET_ID, DELIVER_VALET_ID, DELIVER_TIMESTAMP, " +
+                        "DELIVER_DATE, LICENSE_TAG_HASH, VALET_INCOME)" +
+                        "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',UNIX_TIMESTAMP(),NOW(),'%s','%s');",
                 valet.getVenueId(),
-                valet.getIncomeLicenseTag());
+                valet.getCar().getLicenseTag(),
+                valet.getCar().getKeyNumber(),
+                valet.getCar().getPhone(),
+                valet.getCar().getBrandId(),
+                valet.getCar().getZone(),
+                CAR_DELIVERED_STATUS,
+                valet.getCar().getRegisterDate(),
+                valet.getCar().getRegisterTimestamp(),
+                valet.getCar().getRegisterValetId(),
+                valet.getPhone(),
+                valet.getCar().getLicenseTagHash(),
+                valet.getIncome());
 
         return  sqlStatement;
     }
+
 
 
     public String getValetInfoWithPhone(Valet valet) {
@@ -146,6 +164,31 @@ public class SqlStatement {
         return sqlStatement;
     }
 
+    public String getTBCurrentCarLog(Valet valet){
+        String sqlStatement = String.format(
+                "SELECT *" +
+                        " FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " AS CC " +
+                        "INNER JOIN " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " AS RGC ON CC.LICENSE_TAG = RGC.LICENSE_TAG " +
+                        "WHERE CC." +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s' ;", valet.getIncomeLicenseTag());
+        return sqlStatement;
+
+
+        /*
+        select *
+from TB_CURRENT_CAR AS CC
+INNER JOIN TB_REGISTERED_CAR AS RGC ON
+
+         */
+    }
+
+
+
     /*
     INSERT INTO TB_REGISTERED_CAR (LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH)
 VALUES ('34BJK1903','1','543434','asdasdas')
@@ -183,7 +226,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         "(LICENSE_TAG, VENUE_ID, KEY_NUMBER, REGISTER_DATE, REGISTER_TIMESTAMP, REGISTER_VALET_ID)" +
                         "VALUES ('%s','%s','%s',NOW(), UNIX_TIMESTAMP(), '%s');",
                 car.getLicenseTag(),
-               car.getVenueId(),
+                car.getVenueId(),
                 car.getKeyNumber(),
                 car.getValetId());
 
@@ -235,9 +278,9 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         " = RGC." +
                         TB_REGISTERED_CAR.LICENSE_TAG.toString() +
                         " WHERE " +
-                        TB_CURRENT_CAR.ZONE.toString() +
-                        " IS NULL AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
-                        " = '%s' ;", valet.getVenueId());
+                        TB_CURRENT_CAR.CAR_STATUS.toString() +
+                        " = '%s' AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
+                        " = '%s' ;", CAR_WAITING_DELIVERY_STATUS, valet.getVenueId());
 
         return sqlStatement;
     }
@@ -321,7 +364,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
     }
 
 
-    public String setDeliveredCar (Car car){
+    public String setCarStatus(Car car){
         String sqlStatement = String.format(
                 " UPDATE " +
                         DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
@@ -356,6 +399,18 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         " = '%s';", valet.isAuthorized(), valet.getPhone());
         return sqlStatement;
     }
+
+    public String removeFromTBCurrentCar (Valet valet){
+
+        String sqlStatement = String.format(
+                " DELETE FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s';", valet.getIncomeLicenseTag());
+        return sqlStatement;
+    }
+
 
 
 /*

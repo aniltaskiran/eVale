@@ -33,10 +33,10 @@ public class DBConnection {
         }
     }
 
-    public Boolean setDeliveredCar(Car car) {
+    public Boolean setCarStatus(Car car) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        return executeUpdateWithStatement(sqlStatement.setDeliveredCar(car));
+        return executeUpdateWithStatement(sqlStatement.setCarStatus(car));
     }
 
     public Boolean setZoneToCar(Car car) {
@@ -51,10 +51,16 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.updateCurrentCar(car));
     }
 
-    public Boolean saveTipForValet(Valet valet) {
+    public Boolean saveTipAndMoveCarToLogCar(Valet valet) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
-        return executeUpdateWithStatement(sqlStatement.saveTipForValet(valet));
+        return executeUpdateWithStatement(sqlStatement.saveTipAndMoveCarToLogCar(valet));
+    }
+
+    public Boolean removeFromTBCurrentCar(Valet valet) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.removeFromTBCurrentCar(valet));
     }
 
     public Boolean registerCar(Car car) {
@@ -229,6 +235,20 @@ public class DBConnection {
         }
     }
 
+    public CAR_LOG getTBCurrentCarLog(Valet valet){
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        resultSet = executeQueryWithStatement(sqlStatement.getTBCurrentCarLog(valet));
+        try{
+            return  parseTBCurrentCarResultSet(resultSet);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
+    }
+
 
 
     private Boolean executeUpdateWithStatement(String sqlStatement) {
@@ -390,6 +410,26 @@ public class DBConnection {
             car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
 
             return car;
+        }
+
+        return null;
+    }
+
+    public CAR_LOG parseTBCurrentCarResultSet(ResultSet resultSet) throws Exception {
+        while(resultSet.next()){
+            CAR_LOG car = new CAR_LOG();
+
+            car.setRegisterDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_DATE.toString()));
+            car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
+            car.setBrandId(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
+            car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
+            car.setPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));
+            car.setRegisterTimestamp(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString()));
+            car.setRegisterValetId(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_VALET_ID.toString()));
+
+            return car;
+
         }
 
         return null;

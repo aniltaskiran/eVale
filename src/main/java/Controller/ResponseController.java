@@ -34,6 +34,16 @@ public class ResponseController {
                     break;
                 case SetZoneToCar:
                     new CarController().setZoneToCar(request, response);
+                    break;
+                case DeliveryWaitingList:
+                    new ValetController().getDeliveryWaitingList(request, response);
+                    break;
+                case SetCarStatus:
+                    new CarController().setCarStatus(request, response);
+                    break;
+                case saveTipAndMoveToLog:
+                    new ValetController().saveTipAndMoveToLog(request, response);
+
             }
     }
 }

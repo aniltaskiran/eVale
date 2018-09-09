@@ -1,13 +1,51 @@
 package model;
 
+import Security.Hash;
+
 public class CAR_LOG {
     private String registerDate;
+    private String registerTimestamp;
     private String deliverDate;
     private String licenseTag;
     private String zone;
     private String brandId;
     private String valetFirstName;
     private String valetSurname;
+    private String keyNumber;
+    private String phone;
+    private String registerValetId;
+
+    public String getKeyNumber() {
+        return keyNumber;
+    }
+
+    public void setKeyNumber(String keyNumber) {
+        this.keyNumber = keyNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRegisterTimestamp() {
+        return registerTimestamp;
+    }
+
+    public void setRegisterTimestamp(String registerTimestamp) {
+        this.registerTimestamp = registerTimestamp;
+    }
+
+    public String getRegisterValetId() {
+        return registerValetId;
+    }
+
+    public void setRegisterValetId(String registerValetId) {
+        this.registerValetId = registerValetId;
+    }
 
     public String getRegisterDate() {
         return registerDate;
@@ -27,6 +65,9 @@ public class CAR_LOG {
 
     public String getLicenseTag() {
         return licenseTag;
+    }
+    public String getLicenseTagHash() {
+        return Hash.md5(licenseTag);
     }
 
     public void setLicenseTag(String licenseTag) {

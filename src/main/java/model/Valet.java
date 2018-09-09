@@ -11,10 +11,25 @@ public class Valet {
     private String surname;
     private String venueId;
     private String income;
-    private String incomeLicenseTag;
-    private String registeredCarCount;
-    private String deliveredCarCount;
 
+    public String getIncomeLicenseTag() {
+        return incomeLicenseTag;
+    }
+
+    public void setIncomeLicenseTag(String incomeLicenseTag) {
+        this.incomeLicenseTag = incomeLicenseTag;
+    }
+
+    private String incomeLicenseTag;
+    private CAR_LOG car;
+
+    public CAR_LOG getCar() {
+        return car;
+    }
+
+    public void setCar(CAR_LOG car) {
+        this.car = car;
+    }
 
     public Boolean isAvailableToUpdateDB(){
         if (isAuthorized != null && venueId != null && phone != null) {
@@ -23,8 +38,11 @@ public class Valet {
         return false;
     }
 
-    public String getIncomeLicenseTag() {
-        return incomeLicenseTag;
+    public Boolean isAvailableToSaveTip(){
+        if (phone != null && income != null && incomeLicenseTag != null && venueId != null) {
+            return true;
+        }
+        return false;
     }
 
     public String getIncome() {
