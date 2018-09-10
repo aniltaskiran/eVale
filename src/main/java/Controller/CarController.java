@@ -191,7 +191,7 @@ public class CarController {
 
         } else if (car.getLicenseTag() == null
                 || car.getKeyNumber() == null
-                || car.getVenueId() == null) {
+                || car.getVenueID() == null) {
 
             return true;
 
@@ -206,10 +206,10 @@ public class CarController {
 
         } else if (car.getLicenseTag() == null
                 || car.getKeyNumber() == null
-                || car.getVenueId() == null
-                || car.getBrandId() == null
+                || car.getVenueID() == null
+                || car.getBrandID() == null
                 || car.getPhone() == null
-                || car.getValetId() == null) {
+                || car.getValetID() == null) {
 
             return true;
 

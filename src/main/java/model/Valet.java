@@ -9,7 +9,7 @@ public class Valet {
     private String phone;
     private String firstName;
     private String surname;
-    private String venueId;
+    private String venueID;
     private String income;
 
     public String getIncomeLicenseTag() {
@@ -32,14 +32,14 @@ public class Valet {
     }
 
     public Boolean isAvailableToUpdateDB(){
-        if (isAuthorized != null && venueId != null && phone != null) {
+        if (isAuthorized != null && venueID != null && phone != null) {
             return true;
         }
         return false;
     }
 
     public Boolean isAvailableToSaveTip(){
-        if (phone != null && income != null && incomeLicenseTag != null && venueId != null) {
+        if (phone != null && income != null && incomeLicenseTag != null && venueID != null) {
             return true;
         }
         return false;
@@ -69,8 +69,8 @@ public class Valet {
         return isAuthorized;
     }
 
-    public String getVenueId() {
-        return venueId;
+    public String getVenueID() {
+        return venueID;
     }
 
     public void setAdmin(boolean admin) {
@@ -93,7 +93,7 @@ public class Valet {
         this.surname = surname;
     }
 
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
+    public void setVenueID(String venueID) {
+        this.venueID = venueID;
     }
 }

@@ -1,7 +1,7 @@
 package model;
 
 public class Admin {
-    private String venueId;
+    private String venueID;
     private String valetPhone;
     private Boolean authorizationStatus;
     private String selectedDateFirst;
@@ -35,15 +35,15 @@ public class Admin {
         this.valetPhone = valetPhone;
     }
 
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
+    public void setVenueID(String venueID) {
+        this.venueID = venueID;
     }
 
     public String getValetPhone() {
         return valetPhone;
     }
 
-    public String getVenueId() {
-        return venueId;
+    public String getVenueID() {
+        return venueID;
     }
 }

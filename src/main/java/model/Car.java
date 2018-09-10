@@ -5,20 +5,20 @@ import Security.Hash;
 public class Car {
     private String keyNumber;
     private String licenseTag;
-    private String venueId;
-    private Integer brandId;
+    private String venueID;
+    private Integer brandID;
     private String zone;
     private String phone;
     private String status;
     private String registrationTimestamp;
-    private String valetId;
+    private String valetID;
 
-    public String getValetId() {
-        return valetId;
+    public String getValetID() {
+        return valetID;
     }
 
-    public void setValetId(String valetId) {
-        this.valetId = valetId;
+    public void setValetID(String valetID) {
+        this.valetID = valetID;
     }
 
     public String getLicenseTagHash() {
@@ -49,12 +49,12 @@ public class Car {
         this.zone = zone;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public Integer getBrandID() {
+        return brandID;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrandID(Integer brandID) {
+        this.brandID = brandID;
     }
 
     public String getKeyNumber() {
@@ -73,12 +73,12 @@ public class Car {
         this.licenseTag = licenseTag;
     }
 
-    public String getVenueId() {
-        return venueId;
+    public String getVenueID() {
+        return venueID;
     }
 
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
+    public void setVenueID(String venueID) {
+        this.venueID = venueID;
     }
 
     public String getPhone() {

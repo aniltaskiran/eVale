@@ -53,7 +53,7 @@ public class SqlStatement {
                         " WHERE " +
                         SOURCE_TB_ZONE.VENUE_ID.toString() +
                         " = '%s';",
-                valet.getVenueId());
+                valet.getVenueID());
 
         return  sqlStatement;
     }
@@ -69,11 +69,11 @@ public class SqlStatement {
                 valet.getFirstName(),
                 valet.getSurname(),
                 valet.isAuthorized(),
-                valet.getVenueId(),
+                valet.getVenueID(),
                 valet.getFirstName(),
                 valet.getSurname(),
                 valet.isAuthorized(),
-                valet.getVenueId());
+                valet.getVenueID());
 
         return  sqlStatement;
     }
@@ -87,7 +87,7 @@ public class SqlStatement {
                         "REGISTER_VALET_ID, DELIVER_VALET_ID, DELIVER_TIMESTAMP, " +
                         "DELIVER_DATE, LICENSE_TAG_HASH, VALET_INCOME)" +
                         "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',UNIX_TIMESTAMP(),NOW(),'%s','%s');",
-                valet.getVenueId(),
+                valet.getVenueID(),
                 valet.getCar().getLicenseTag(),
                 valet.getCar().getKeyNumber(),
                 valet.getCar().getPhone(),
@@ -125,7 +125,7 @@ public class SqlStatement {
                        TB_CURRENT_CAR.KEY_NUMBER.toString() +
                        " = '%s' AND " +
                        TB_CURRENT_CAR.VENUE_ID.toString() +
-                       " = '%s' ;", car.getKeyNumber(), car.getVenueId());
+                       " = '%s' ;", car.getKeyNumber(), car.getVenueID());
        return sqlStatement;
     }
 
@@ -210,10 +210,10 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                        TB_REGISTERED_CAR.PHONE.toString() +
                        " = '%s';",
                car.getLicenseTag(),
-               car.getBrandId(),
+               car.getBrandID(),
                car.getPhone(),
                car.getLicenseTagHash(),
-               car.getBrandId(),
+               car.getBrandID(),
                car.getPhone());
        
        return sqlStatement;
@@ -226,9 +226,9 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         "(LICENSE_TAG, VENUE_ID, KEY_NUMBER, REGISTER_DATE, REGISTER_TIMESTAMP, REGISTER_VALET_ID)" +
                         "VALUES ('%s','%s','%s',NOW(), UNIX_TIMESTAMP(), '%s');",
                 car.getLicenseTag(),
-                car.getVenueId(),
+                car.getVenueID(),
                 car.getKeyNumber(),
-                car.getValetId());
+                car.getValetID());
 
         return  sqlStatement;
     }
@@ -253,7 +253,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         " WHERE " +
                         TB_CURRENT_CAR.ZONE.toString() +
                         " IS NULL AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
-                        " = '%s' ;", valet.getVenueId());
+                        " = '%s' ;", valet.getVenueID());
 
         return sqlStatement;
     }
@@ -280,7 +280,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         " WHERE " +
                         TB_CURRENT_CAR.CAR_STATUS.toString() +
                         " = '%s' AND " + TB_CURRENT_CAR.VENUE_ID.toString() +
-                        " = '%s' ;", CAR_WAITING_DELIVERY_STATUS, valet.getVenueId());
+                        " = '%s' ;", CAR_WAITING_DELIVERY_STATUS, valet.getVenueID());
 
         return sqlStatement;
     }
@@ -308,7 +308,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         TB_REGISTERED_CAR.LICENSE_TAG.toString() +
                         " WHERE " +
                         TB_CURRENT_CAR.VENUE_ID.toString() +
-                        " = '%s' ;", valet.getVenueId());
+                        " = '%s' ;", valet.getVenueID());
 
         return sqlStatement;
     }
@@ -344,7 +344,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         TB_CURRENT_CAR.REGISTER_DATE.toString() +
                         " < '%s' " +
                         ";",
-                admin.getVenueId(),
+                admin.getVenueID(),
                 admin.getSelectedDateFirst(),
                 admin.getSelectedDateSecond());
 

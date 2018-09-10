@@ -91,7 +91,7 @@ public class ValetController {
     private void sendCarListResponseFor(ListType type, HttpServletRequest request, HttpServletResponse response) {
         Valet valet = getValetObject(request);
 
-        if (valet == null || valet.getVenueId() == null) {
+        if (valet == null || valet.getVenueID() == null) {
             new Response(response).sendErrorResponse(Error.BAD_REQUEST);
         } else {
             ArrayList<Car> cars = null;

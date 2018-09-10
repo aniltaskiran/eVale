@@ -285,7 +285,7 @@ public class DBConnection {
            valet.setSurname(resultSet.getString(SqlStatement.TB_VALET.SURNAME.toString()));
            valet.setAdmin(resultSet.getBoolean(SqlStatement.TB_VALET.IS_ADMIN.toString()));
            valet.setAuthorized(resultSet.getBoolean(SqlStatement.TB_VALET.IS_AUTHORIZED.toString()));
-           valet.setVenueId(resultSet.getString(SqlStatement.TB_VALET.VENUE_ID.toString()));
+           valet.setVenueID(resultSet.getString(SqlStatement.TB_VALET.VENUE_ID.toString()));
 
         }
         return valet;
@@ -327,7 +327,7 @@ public class DBConnection {
             Car car = new Car();
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
-            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             carList.add(car);
         }
 
@@ -342,7 +342,7 @@ public class DBConnection {
             Car car = new Car();
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
-            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             carList.add(car);
         }
@@ -357,7 +357,7 @@ public class DBConnection {
             Car car = new Car();
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
-            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             car.setRegistrationTimestamp(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString()));
             carList.add(car);
@@ -407,7 +407,7 @@ public class DBConnection {
 
             Car car = new Car();
             car.setPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));
-            car.setBrandId(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
 
             return car;
         }
