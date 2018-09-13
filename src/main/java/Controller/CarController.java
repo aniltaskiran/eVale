@@ -52,12 +52,12 @@ public class CarController {
 
                         car = getPhoneAndBrandId(car);
                         if (car == null){
-                            new Response(response).sendErrorResponse(Error.CAR_IS_NOT_REGISTERED);
+                            new Response(response).sendResponseWithCode(Error.CAR_IS_NOT_REGISTERED);
                         } else {
                             new Response(response).sendObject("car", car);
                         }
                     } else {
-                        new Response(response).sendErrorResponse(Error.CAR_IS_NOT_REGISTERED);
+                        new Response(response).sendResponseWithCode(Error.CAR_IS_NOT_REGISTERED);
                     }
 
                 } else {
@@ -207,7 +207,6 @@ public class CarController {
         } else if (car.getLicenseTag() == null
                 || car.getKeyNumber() == null
                 || car.getVenueID() == null
-                || car.getBrandID() == null
                 || car.getPhone() == null
                 || car.getValetID() == null) {
 

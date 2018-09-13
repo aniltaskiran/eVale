@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Response {
 
-    private String errorCode;
+    private String resultCode;
     private String message;
     private boolean result;
     HttpServletResponse response;
@@ -44,19 +44,27 @@ public class Response {
 
     public void sendErrorResponse(Error error) {
         this.result = false;
-        this.errorCode = error.getErrorCode();
+        this.resultCode = error.getErrorCode();
         this.message = error.getErrorMessage();
         sendResponse();
     }
 
     public void sendResponse() {
         JsonObject jsonObject = new JsonObject();
-        if (errorCode != null) {
-            jsonObject.addProperty("errorCode", errorCode);
+        if (resultCode != null) {
+            jsonObject.addProperty("resultCode", resultCode);
         }
         if (message != null) {
             jsonObject.addProperty("message", message);
         }
+        jsonObject.addProperty("result", result);
+        sendJson(jsonObject);
+    }
+
+    public void sendResponseWithCode(Error error) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("resultCode", error.getErrorCode());
+        jsonObject.addProperty("message", error.getErrorMessage());
         jsonObject.addProperty("result", result);
         sendJson(jsonObject);
     }

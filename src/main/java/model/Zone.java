@@ -1,28 +1,28 @@
 package model;
 
 public class Zone {
-    private String venueId;
-    private int orderId;
+    private String venueID;
+    private int orderID;
     private String zoneName;
 
-    public String getVenueId() {
-        return venueId;
+    public String getVenueID() {
+        return venueID;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getOrderID() {
+        return orderID;
     }
 
     public String getZoneName() {
         return zoneName;
     }
 
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
+    public void setVenueID(String venueID) {
+        this.venueID = venueID;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
     public void setZoneName(String zoneName) {

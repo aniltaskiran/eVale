@@ -8,7 +8,7 @@ public class CAR_LOG {
     private String deliverDate;
     private String licenseTag;
     private String zone;
-    private String brandId;
+    private String brandID;
     private String valetFirstName;
     private String valetSurname;
     private String keyNumber;
@@ -98,12 +98,12 @@ public class CAR_LOG {
         this.zone = zone;
     }
 
-    public String getBrandId() {
-        return brandId;
+    public String getBrandID() {
+        return brandID;
     }
 
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
+    public void setBrandID(String brandID) {
+        this.brandID = brandID;
     }
 
 }

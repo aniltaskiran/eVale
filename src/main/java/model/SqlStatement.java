@@ -91,7 +91,7 @@ public class SqlStatement {
                 valet.getCar().getLicenseTag(),
                 valet.getCar().getKeyNumber(),
                 valet.getCar().getPhone(),
-                valet.getCar().getBrandId(),
+                valet.getCar().getBrandID(),
                 valet.getCar().getZone(),
                 CAR_DELIVERED_STATUS,
                 valet.getCar().getRegisterDate(),

@@ -310,8 +310,8 @@ public class DBConnection {
 
             Zone zone = new Zone();
 
-           zone.setOrderId(resultSet.getInt(SqlStatement.SOURCE_TB_ZONE.ORDER_ID.toString()));
-           zone.setVenueId(resultSet.getString(SqlStatement.SOURCE_TB_ZONE.VENUE_ID.toString()));
+           zone.setOrderID(resultSet.getInt(SqlStatement.SOURCE_TB_ZONE.ORDER_ID.toString()));
+           zone.setVenueID(resultSet.getString(SqlStatement.SOURCE_TB_ZONE.VENUE_ID.toString()));
            zone.setZoneName(resultSet.getString(SqlStatement.SOURCE_TB_ZONE.ZONE_NAME.toString()));
 
            zoneList.add(zone);
@@ -374,7 +374,7 @@ public class DBConnection {
             car.setRegisterDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_DATE.toString()));
             car.setDeliverDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.DELIVER_DATE.toString()));
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
-            car.setBrandId(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             car.setValetFirstName(resultSet.getString(SqlStatement.TB_VALET.FIRSTNAME.toString()));
             car.setValetSurname(resultSet.getString(SqlStatement.TB_VALET.SURNAME.toString()));
@@ -421,7 +421,7 @@ public class DBConnection {
 
             car.setRegisterDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_DATE.toString()));
             car.setLicenseTag(resultSet.getString(SqlStatement.TB_CURRENT_CAR.LICENSE_TAG.toString()));
-            car.setBrandId(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
+            car.setBrandID(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
             car.setPhone(resultSet.getString(SqlStatement.TB_REGISTERED_CAR.PHONE.toString()));

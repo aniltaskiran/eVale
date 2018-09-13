@@ -23,7 +23,7 @@ public class GetZoneListServlet extends HttpServlet {
         Zone zone = gson.fromJson(req.getReader(), Zone.class);
 
 
-        getZoneList(resp, zone.getVenueId());
+        getZoneList(resp, zone.getVenueID());
     }
 
     void getZoneList(HttpServletResponse resp, String venueId) {
