@@ -7,6 +7,7 @@ public class Sms {
     private String number;
     private String message;
     private String process = "1";
+    private String apiUrl = "https://www.atlassms.net/api-center/";
 
     public String getUsername() {
         return username;
@@ -54,5 +55,13 @@ public class Sms {
 
     public void setProcess(String process) {
         this.process = process;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
     }
 }
