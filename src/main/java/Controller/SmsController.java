@@ -1,6 +1,15 @@
 package Controller;
 
 import model.Sms;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
 
 public class SmsController {
 
@@ -10,7 +19,20 @@ public class SmsController {
 
     public void smsSend(Sms sms){
 
-        //ADD MAVEN DEPENDENCIES for HTTPCLIENT
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(sms.getApiUrl());
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addTextBody(smsProperties.islem.toString(),sms.getProcess(), ContentType.TEXT_PLAIN);
+        builder.addTextBody(smsProperties.user.toString(),sms.getUsername(), ContentType.TEXT_PLAIN);
+        builder.addTextBody(smsProperties.pass.toString(),sms.getPassword(), ContentType.TEXT_PLAIN);
+
+        httpPost.setEntity((HttpEntity) builder);
+
+        try {
+            HttpResponse response = httpClient.execute(httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

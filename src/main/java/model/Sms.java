@@ -6,7 +6,7 @@ public class Sms {
     private String title = "ATLASMESAJ";
     private String number;
     private String message;
-    private String process = "1";
+    private String process = "2";
     private String apiUrl = "https://www.atlassms.net/api-center/";
 
     public String getUsername() {
