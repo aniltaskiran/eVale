@@ -294,7 +294,7 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         ", CC." +
                         TB_CURRENT_CAR.ZONE.toString() +
                         ", CC." +
-                        TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString() +
+                        TB_CURRENT_CAR.REGISTER_DATE.toString() +
                         ", RGC." +
                         TB_REGISTERED_CAR.BRAND_ID.toString() +
                         " FROM " +

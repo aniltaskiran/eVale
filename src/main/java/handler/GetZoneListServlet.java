@@ -35,7 +35,7 @@ public class GetZoneListServlet extends HttpServlet {
             ArrayList<Zone> zone =  dao.getZoneList(venueId);
 
             if (zone != null) {
-                jsonResp.sendZoneObjectResponse(zone);
+                jsonResp.sendZoneListJson(new Gson().toJsonTree(zone), zone.size());
             } else {
                 jsonResp.sendErrorResponse("404");
             }

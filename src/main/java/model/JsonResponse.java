@@ -19,14 +19,15 @@ public class JsonResponse {
         this.response = resp;
     }
 
+    public void sendZoneListJson(JsonElement jsonElement, int size) throws IOException{
+        JsonObject complaint = new JsonObject();
+        complaint.addProperty("result", true);
 
-    public void sendZoneObjectResponse(ArrayList<Zone> zoneList) throws IOException {
+        complaint.add("zoneList", jsonElement);
+        complaint.addProperty("count", size);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(zoneList);
 
-        sendJson(json);
-
+        sendJson(complaint);
     }
 
     public void sendCarListJson(JsonElement jsonElement, int size) throws IOException{

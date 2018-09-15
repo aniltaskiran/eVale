@@ -359,7 +359,7 @@ public class DBConnection {
             car.setKeyNumber(resultSet.getString(SqlStatement.TB_CURRENT_CAR.KEY_NUMBER.toString()));
             car.setBrandID(resultSet.getInt(SqlStatement.TB_REGISTERED_CAR.BRAND_ID.toString()));
             car.setZone(resultSet.getString(SqlStatement.TB_CURRENT_CAR.ZONE.toString()));
-            car.setRegistrationTimestamp(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_TIMESTAMP.toString()));
+            car.setRegisterDate(resultSet.getString(SqlStatement.TB_CURRENT_CAR.REGISTER_DATE.toString()));
             carList.add(car);
         }
 

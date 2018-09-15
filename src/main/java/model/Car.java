@@ -11,6 +11,16 @@ public class Car {
     private String phone;
     private String status;
     private String registrationTimestamp;
+    private String registerDate;
+
+    public String getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
+    }
+
     private String valetID;
 
     public String getValetID() {
