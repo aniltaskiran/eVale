@@ -1,6 +1,7 @@
 package Controller;
 
 import model.ResponseType;
+import model.Sms;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,10 @@ public class ResponseController {
                     break;
                 case saveTipAndMoveToLog:
                     new ValetController().saveTipAndMoveToLog(request, response);
-
+                    break;
+                case SmsServlet:
+                    Sms sms = new Sms();
+                    new SmsController().smsSend(sms);
             }
     }
 }
