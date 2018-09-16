@@ -46,8 +46,7 @@ public class ResponseController {
                     new ValetController().saveTipAndMoveToLog(request, response);
                     break;
                 case SmsServlet:
-                    Sms sms = new Sms();
-                    new SmsController().smsSend(sms, response);
+                    new SmsController().smsSend(request, response);
                 case WrongEntity:
                     new CarController().wrongEntity(request,response);
             }

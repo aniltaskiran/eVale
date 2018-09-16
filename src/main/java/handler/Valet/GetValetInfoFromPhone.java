@@ -16,7 +16,6 @@ public class GetValetInfoFromPhone extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
-        new SmsController().smsSend(new Sms(), resp);
         new ResponseController(resp, req).sendResponse(ResponseType.GetValetInfo);
     }
 }
