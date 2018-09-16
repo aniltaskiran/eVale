@@ -307,6 +307,8 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
                         TB_CURRENT_CAR.REGISTER_DATE.toString() +
                         ", RGC." +
                         TB_REGISTERED_CAR.BRAND_ID.toString() +
+                        ", RGC." +
+                        TB_REGISTERED_CAR.PHONE.toString() +
                         " FROM " +
                         DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
                         " AS CC " +
