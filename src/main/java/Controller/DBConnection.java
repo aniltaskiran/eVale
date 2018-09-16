@@ -63,6 +63,12 @@ public class DBConnection {
         return executeUpdateWithStatement(sqlStatement.removeFromTBCurrentCar(valet));
     }
 
+    public Boolean updateBrandID(Car car) {
+        startConnection();
+        SqlStatement sqlStatement = new SqlStatement();
+        return executeUpdateWithStatement(sqlStatement.updateBrandID(car));
+    }
+
     public Boolean registerCar(Car car) {
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();

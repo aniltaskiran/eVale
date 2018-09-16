@@ -4,7 +4,7 @@ public enum Error {
      BAD_REQUEST(400), UNAUTHORIZED(401), NOT_FOUND(404),
     INTERNAL_DB_ERROR(505),
     KEY_NUMBER_NOT_AVAILABLE(1001), LICENSE_TAG_NOT_AVAILABLE(1002), CAR_IS_NOT_REGISTERED(1003),
-    CANT_UPDATE_ZONE(2001);
+    CANT_UPDATE_ZONE(2001), CANT_UPDATE_BRAND_ID(2002);
 
 
     private final int code;
@@ -30,7 +30,8 @@ public enum Error {
             case KEY_NUMBER_NOT_AVAILABLE: return "Key number not available";
             case LICENSE_TAG_NOT_AVAILABLE: return "License tag not available";
 
-            case CANT_UPDATE_ZONE: return "Db fuck up.";
+            case CANT_UPDATE_ZONE: return "Cant update zone ";
+            case CANT_UPDATE_BRAND_ID: return "Cant update brand id";
 
             default: return "EXCEPTION";
         }

@@ -197,6 +197,16 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
 
      */
 
+    public String updateBrandID(Car car){
+        String sqlStatement = String.format(
+                " UPDATE " +
+                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
+                        " SET BRAND_ID = '%s' WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s';", car.getBrandID(), car.getLicenseTag());
+        return sqlStatement;
+    }
+
     public String registerCar (Car car){
        String sqlStatement = String.format(
                "INSERT INTO " +

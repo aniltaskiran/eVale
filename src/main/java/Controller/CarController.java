@@ -77,12 +77,19 @@ public class CarController {
     public void setZoneToCar(HttpServletRequest request, HttpServletResponse response){
         Car car = getCarObject(request);
 
-        if (car == null || car.getLicenseTag() == null || car.getZone() == null) {
+
+        if (car == null || car.getLicenseTag() == null || car.getZone() == null || car.getBrandID() == null) {
             new Response(response).sendErrorResponse(Error.BAD_REQUEST);
             return;
         }
 
-        changeInfoAboutCarOnDB(ChangeType.setZoneToCar, car, response);
+        if (new DBConnection().updateBrandID(car)) {
+            changeInfoAboutCarOnDB(ChangeType.setZoneToCar, car, response);
+        } else {
+            new Response(response).sendErrorResponse(Error.CANT_UPDATE_BRAND_ID);
+        }
+
+
     }
 
     public void setCarStatus(HttpServletRequest request, HttpServletResponse response){
