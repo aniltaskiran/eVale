@@ -4,7 +4,7 @@ public enum Error {
      BAD_REQUEST(400), UNAUTHORIZED(401), NOT_FOUND(404),
     INTERNAL_DB_ERROR(505),
     KEY_NUMBER_NOT_AVAILABLE(1001), LICENSE_TAG_NOT_AVAILABLE(1002), CAR_IS_NOT_REGISTERED(1003),
-    CANT_UPDATE_ZONE(2001), CANT_UPDATE_BRAND_ID(2002);
+    CANT_UPDATE_ZONE(2001), CANT_UPDATE_BRAND_ID(2002), CANT_DELETE_CAR_FROM_CURRENT(3001);
 
 
     private final int code;
@@ -32,6 +32,8 @@ public enum Error {
 
             case CANT_UPDATE_ZONE: return "Cant update zone ";
             case CANT_UPDATE_BRAND_ID: return "Cant update brand id";
+
+            case CANT_DELETE_CAR_FROM_CURRENT: return  "Cant delete the car from current car";
 
             default: return "EXCEPTION";
         }

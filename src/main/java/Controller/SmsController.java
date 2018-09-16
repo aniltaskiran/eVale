@@ -1,15 +1,12 @@
 package Controller;
 
+import com.google.gson.Gson;
+import com.mashape.unirest.http.Unirest;
+import model.JsonResponse;
 import model.Sms;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+
 
 public class SmsController {
 
@@ -17,20 +14,19 @@ public class SmsController {
         islem, user, pass, raporId, mesaj, numaralar, baslik
     }
 
-    public void smsSend(Sms sms){
+    public void smsSend(Sms sms, HttpServletResponse response ){
+        JsonResponse json = new JsonResponse(response);
+        Gson gson = new Gson();
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(sms.getApiUrl());
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addTextBody(smsProperties.islem.toString(),sms.getProcess(), ContentType.TEXT_PLAIN);
-        builder.addTextBody(smsProperties.user.toString(),sms.getUsername(), ContentType.TEXT_PLAIN);
-        builder.addTextBody(smsProperties.pass.toString(),sms.getPassword(), ContentType.TEXT_PLAIN);
+        try{
+            com.mashape.unirest.http.HttpResponse<String> uniResponse = Unirest.post(sms.getApiUrl())
+                    .field(smsProperties.islem.toString(), sms.getProcess())
+                    .field(smsProperties.user.toString(), sms.getUsername())
+                    .field(smsProperties.pass.toString(), sms.getPassword()).asString();
 
-        httpPost.setEntity((HttpEntity) builder);
+            System.out.printf(uniResponse.getBody());
+        }catch (Exception e){
 
-        try {
-            HttpResponse response = httpClient.execute(httpPost);
-        } catch (IOException e) {
             e.printStackTrace();
         }
 

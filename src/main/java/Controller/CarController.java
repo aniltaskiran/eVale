@@ -104,6 +104,56 @@ public class CarController {
 
     }
 
+    public void wrongEntity(HttpServletRequest request, HttpServletResponse response){
+        Car car = getCarObject(request);
+
+        if(new DBConnection().wrongEntity(car)){
+            new Response(response).sendResponse();
+
+        } else{
+                new Response(response).sendErrorResponse(Error.CANT_DELETE_CAR_FROM_CURRENT);
+            }
+
+
+
+    }
+
+    public void updateCar(HttpServletRequest request, HttpServletResponse response){
+        Car car = getCarObject(request);
+
+        if (checkIsBadRequest(car)) {
+            new Response(response).sendErrorResponse(Error.BAD_REQUEST);
+            return;
+        }
+
+        try{
+            if(checkLicenseTagIsAvailable(car)) {
+
+                if (checkCarIsRegistered(car)) {
+
+                    car = getPhoneAndBrandId(car);
+
+                    if (car == null) {
+
+                        registerNewCar(request, response);
+
+                    } else {
+                        new Response(response).sendObject("car", car);
+                    }
+                } else {
+                    new Response(response).sendErrorResponse(Error.LICENSE_TAG_NOT_AVAILABLE);
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
 
 
     /*
@@ -223,4 +273,6 @@ public class CarController {
             return false;
         }
     }
+
+
 }

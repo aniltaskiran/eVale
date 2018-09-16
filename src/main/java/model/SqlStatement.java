@@ -421,6 +421,19 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
         return sqlStatement;
     }
 
+    public String wrongEntity (Car car){
+        String sqlStatement = String.format(
+
+                " DELETE FROM " +
+                        DB_TABLE_NAMES.TB_CURRENT_CAR.toString() +
+                        " WHERE " +
+                        TB_CURRENT_CAR.LICENSE_TAG.toString() +
+                        " = '%s'; ",
+                car.getLicenseTag());
+
+        return sqlStatement;
+    }
+
 
 
 /*

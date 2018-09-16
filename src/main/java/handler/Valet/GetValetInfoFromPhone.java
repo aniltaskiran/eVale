@@ -1,7 +1,9 @@
 package handler.Valet;
 
 import Controller.ResponseController;
+import Controller.SmsController;
 import model.ResponseType;
+import model.Sms;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,8 @@ public class GetValetInfoFromPhone extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+
+        new SmsController().smsSend(new Sms(), resp);
         new ResponseController(resp, req).sendResponse(ResponseType.GetValetInfo);
     }
 }

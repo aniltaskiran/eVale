@@ -47,7 +47,9 @@ public class ResponseController {
                     break;
                 case SmsServlet:
                     Sms sms = new Sms();
-                    new SmsController().smsSend(sms);
+                    new SmsController().smsSend(sms, response);
+                case WrongEntity:
+                    new CarController().wrongEntity(request,response);
             }
     }
 }
