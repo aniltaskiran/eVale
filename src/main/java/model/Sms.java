@@ -4,8 +4,8 @@ public class Sms {
     private String username = "5422262375";
     private String password = "MySmsService.evale!";
     private String title = "ATLASMESAJ";
-    private String number = "5422262375";
-    private String message = "hello there test";
+    private String number ;
+    private String message ;
     private String process = "1";
     private String apiUrl = "https://www.atlassms.net/api-center/";
 

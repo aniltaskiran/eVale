@@ -26,6 +26,7 @@ public class SmsController {
                     .field(smsProperties.user.toString(), sms.getUsername())
                     .field(smsProperties.pass.toString(), sms.getPassword())
                     .field(smsProperties.mesaj.toString(), sms.getMessage())
+                    .field(smsProperties.baslik.toString(), sms.getTitle())
                     .field(smsProperties.numaralar.toString(), sms.getNumber()).asString();
 
             System.out.printf(uniResponse.getBody());
