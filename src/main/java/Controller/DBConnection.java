@@ -76,13 +76,19 @@ public class DBConnection {
     }
 
     public Boolean registerCar(Car car) {
+
         startConnection();
         SqlStatement sqlStatement = new SqlStatement();
+
         if(executeUpdateWithStatement(sqlStatement.registerCar(car))) {
+
             startConnection();
             return executeUpdateWithStatement(sqlStatement.saveCarToCurrentCar(car));
+
         } else {
+
             return false;
+
         }
     }
 

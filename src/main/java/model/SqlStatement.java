@@ -208,25 +208,34 @@ ON DUPLICATE KEY UPDATE BRAND_ID = '1', PHONE = '543434';
     }
 
     public String registerCar (Car car){
+
        String sqlStatement = String.format(
-               "INSERT INTO " +
+               " INSERT INTO " +
                        DB_TABLE_NAMES.TB_REGISTERED_CAR.toString() +
-                       " (LICENSE_TAG, BRAND_ID, PHONE, LICENSE_TAG_HASH) " +
-                       " VALUES " +
-                       " ( '%s', '%d', '%s', '%s')" +
-                       "ON DUPLICATE KEY UPDATE " +
+                       " (" +
+                       TB_REGISTERED_CAR.LICENSE_TAG.toString() +
+                       " , " +
                        TB_REGISTERED_CAR.BRAND_ID.toString() +
-                       " = '%s', " +
+                       " , " +
                        TB_REGISTERED_CAR.PHONE.toString() +
-                       " = '%s';",
+                       " , " +
+                       TB_REGISTERED_CAR.LICENSE_TAG_HASH.toString() +
+                       " ) " +
+                       " VALUES " +
+                       " ( '%s', '%d', '%s', '%s' ) " +
+                       " ON DUPLICATE KEY UPDATE " +
+                       TB_REGISTERED_CAR.BRAND_ID.toString() +
+                       " = '%d', " +
+                       TB_REGISTERED_CAR.PHONE.toString() +
+                       " = '%s'; ",
                car.getLicenseTag(),
                car.getBrandID(),
                car.getPhone(),
                car.getLicenseTagHash(),
                car.getBrandID(),
                car.getPhone());
-       
        return sqlStatement;
+
     }
 
 

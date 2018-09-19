@@ -13,25 +13,38 @@ public class CarController {
 
 
     public enum ChangeType {
-        setZoneToCar, setCarStatus;
+
+        setZoneToCar, setCarStatus
+
     }
 
-    public void registerNewCar(HttpServletRequest request, HttpServletResponse response) {
+    public void registerCar(HttpServletRequest request, HttpServletResponse response) {
+
         Car car = getCarObject(request);
-        if (checkIsBadRequestForRegister(car)) {
+
+        if (checkMissingInformationToRegisterANewCar(car)) {
+
             new Response(response).sendErrorResponse(Error.BAD_REQUEST);
+
             return;
         }
 
         try {
-            if (registerCarToDb(car)) {
+
+            if (registerNewCarToDB(car)) {
+
                 new Response(response).sendResponse();
+
             } else {
+
                 new Response(response).sendErrorResponse(Error.INTERNAL_DB_ERROR);
+
             }
         } catch (Exception e) {
+
             e.printStackTrace();
             new Response(response).sendErrorResponse(Error.INTERNAL_DB_ERROR);
+
         }
     }
 
@@ -44,14 +57,14 @@ public class CarController {
         }
 
         try {
-            if (checkKeyNumberIsAvailable(car)){
+            if (checkKeyNumberIsAvailable(car)) {
 
                 if (checkLicenseTagIsAvailable(car)) {
 
-                    if (checkCarIsRegistered(car)){
+                    if (checkCarIsRegistered(car)) {
 
                         car = getPhoneAndBrandId(car);
-                        if (car == null){
+                        if (car == null) {
                             new Response(response).sendResponseWithCode(Error.CAR_IS_NOT_REGISTERED);
                         } else {
                             new Response(response).sendObject("car", car);
@@ -74,7 +87,7 @@ public class CarController {
         }
     }
 
-    public void setZoneToCar(HttpServletRequest request, HttpServletResponse response){
+    public void setZoneToCar(HttpServletRequest request, HttpServletResponse response) {
         Car car = getCarObject(request);
 
 
@@ -92,7 +105,7 @@ public class CarController {
 
     }
 
-    public void setCarStatus(HttpServletRequest request, HttpServletResponse response){
+    public void setCarStatus(HttpServletRequest request, HttpServletResponse response) {
         Car car = getCarObject(request);
 
         if (car == null || car.getLicenseTag() == null || car.getStatus() == null) {
@@ -104,21 +117,20 @@ public class CarController {
 
     }
 
-    public void wrongEntity(HttpServletRequest request, HttpServletResponse response){
+    public void wrongEntity(HttpServletRequest request, HttpServletResponse response) {
         Car car = getCarObject(request);
 
-        if(new DBConnection().wrongEntity(car)){
+        if (new DBConnection().wrongEntity(car)) {
             new Response(response).sendResponse();
 
-        } else{
-                new Response(response).sendErrorResponse(Error.CANT_DELETE_CAR_FROM_CURRENT);
-            }
-
+        } else {
+            new Response(response).sendErrorResponse(Error.CANT_DELETE_CAR_FROM_CURRENT);
+        }
 
 
     }
 
-    public void updateCar(HttpServletRequest request, HttpServletResponse response){
+    public void updateCar(HttpServletRequest request, HttpServletResponse response) {
         Car car = getCarObject(request);
 
         if (checkIsBadRequest(car)) {
@@ -126,8 +138,8 @@ public class CarController {
             return;
         }
 
-        try{
-            if(checkLicenseTagIsAvailable(car)) {
+        try {
+            if (checkLicenseTagIsAvailable(car)) {
 
                 if (checkCarIsRegistered(car)) {
 
@@ -135,7 +147,7 @@ public class CarController {
 
                     if (car == null) {
 
-                        registerNewCar(request, response);
+                        registerCar(request, response);
 
                     } else {
                         new Response(response).sendObject("car", car);
@@ -145,11 +157,9 @@ public class CarController {
                 }
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
 
     }
@@ -209,12 +219,18 @@ public class CarController {
     }
 
 
-    private Boolean registerCarToDb(Car car) throws Exception {
+    private Boolean registerNewCarToDB(Car car) throws Exception {
+
         DBConnection dao = new DBConnection();
+
         try {
+
             return dao.registerCar(car);
+
         } catch (Exception e) {
+
             throw new Exception();
+
         }
     }
 
@@ -223,9 +239,9 @@ public class CarController {
 
         DBConnection dao = new DBConnection();
         try {
-            if (type == ChangeType.setZoneToCar){
+            if (type == ChangeType.setZoneToCar) {
                 isSuccess = dao.setZoneToCar(car);
-            } else if (type == ChangeType.setCarStatus){
+            } else if (type == ChangeType.setCarStatus) {
                 isSuccess = dao.setCarStatus(car);
             } else {
                 isSuccess = false;
@@ -235,14 +251,14 @@ public class CarController {
             isSuccess = false;
         }
 
-        if (isSuccess){
+        if (isSuccess) {
             new Response(response).sendResponse();
         } else {
             new Response(response).sendErrorResponse(Error.INTERNAL_DB_ERROR);
         }
     }
 
-    private Boolean checkIsBadRequest(Car car){
+    private Boolean checkIsBadRequest(Car car) {
         if (car == null) {
             return true;
 
@@ -257,8 +273,11 @@ public class CarController {
         }
     }
 
-    private Boolean checkIsBadRequestForRegister(Car car){
+    //Checks the all required information provided to register a new car.
+    private Boolean checkMissingInformationToRegisterANewCar(Car car) {
+
         if (car == null) {
+
             return true;
 
         } else if (car.getLicenseTag() == null
@@ -270,9 +289,10 @@ public class CarController {
             return true;
 
         } else {
+
             return false;
+
         }
     }
-
 
 }

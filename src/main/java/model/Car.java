@@ -6,12 +6,13 @@ public class Car {
     private String keyNumber;
     private String licenseTag;
     private String venueID;
-    private Integer brandID;
+    private Integer brandID = 0;
     private String zone;
     private String phone;
     private String status;
     private String registrationTimestamp;
     private String registerDate;
+
 
     public String getRegisterDate() {
         return registerDate;

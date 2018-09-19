@@ -1,7 +1,6 @@
 package Controller;
 
 import model.ResponseType;
-import model.Sms;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +27,7 @@ public class ResponseController {
                     new CarController().checkRegistrationAvailability(request, response);
                     break;
                 case RegisterNewCar:
-                    new CarController().registerNewCar(request, response);
+                    new CarController().registerCar(request, response);
                     break;
                 case ZoneWaitingCarList:
                     new ValetController().getZoneWaitingCarList(request, response);
